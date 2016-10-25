@@ -15,6 +15,11 @@ namespace BugTracker.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public ApplicationUser()
+        {
+            this.AssignedTickets = new HashSet<Ticket>();
+        }
+
        
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -24,6 +29,8 @@ namespace BugTracker.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual ICollection<Ticket> AssignedTickets { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -38,8 +45,15 @@ namespace BugTracker.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Project> Projects { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
+        public DbSet<TicketComment> TicketComments { get; set; }
+        public DbSet<TicketHistory> TicketHistories { get; set; }
+        public DbSet<TicketNotification> TicketNotifications { get; set; }
+        public DbSet<TicketPriority> TicketPriorities { get; set; }
         public DbSet<TicketStatus> TicketStatuses { get; set; }
-
+        public DbSet<TicketType> TicketTypes { get; set; }
+        
     }
 }
