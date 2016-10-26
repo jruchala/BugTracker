@@ -21,6 +21,7 @@ namespace BugTracker.Models
             this.AssignedTicketComments = new HashSet<TicketComment>();
             this.AssignedTicketAttachments = new HashSet<TicketAttachment>();
             this.AssignedTicketNotifications = new HashSet<TicketNotification>();
+            this.Projects = new HashSet<Project>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -35,6 +36,7 @@ namespace BugTracker.Models
         public virtual ICollection<TicketComment> AssignedTicketComments { get; set; }
         public virtual ICollection<TicketAttachment> AssignedTicketAttachments { get; set; }
         public virtual ICollection<TicketNotification> AssignedTicketNotifications { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
