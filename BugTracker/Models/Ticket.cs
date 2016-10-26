@@ -13,9 +13,9 @@ namespace BugTracker.Models
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public int ProjectId { get; set; }
-        public int TicketTypeId { get; set; }
         public int TicketPriorityId { get; set; }
         public int TicketStatusId { get; set; }
+        public int TicketTypeId { get; set; }
         public string OwnerUserId { get; set; } // string because User ID is a string 
         public string AssignedToUserId { get; set; } // string because User ID is a string
 
@@ -46,8 +46,8 @@ namespace BugTracker.Models
         // Navigational Property for Parent
 
         public virtual Project Project { get; set; }
-        public virtual TicketStatus TicketStatus { get; set; }
         public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
         public virtual TicketType TicketType { get; set; }
 
     }

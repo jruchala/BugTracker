@@ -10,11 +10,15 @@ namespace BugTracker.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+
         public Project()
         {
             this.Tickets = new HashSet<Ticket>();
+            this.Users = new HashSet<ApplicationUser>();
         }
 
-        public virtual ICollection<Ticket> Tickets { get; set; }
+
     }
 }

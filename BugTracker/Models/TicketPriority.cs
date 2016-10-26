@@ -11,8 +11,9 @@ namespace BugTracker.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Ticket> Tickets { get; set; }
         // navigational properties
+        public virtual ICollection<Ticket> Tickets { get; set; }
+
         public TicketPriority()
         {
             this.Tickets = new HashSet<Ticket>();
