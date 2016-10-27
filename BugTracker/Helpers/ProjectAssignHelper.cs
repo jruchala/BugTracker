@@ -47,11 +47,7 @@ namespace BugTracker.Helpers
 
         public List<ApplicationUser> ListUsersNotOnProject(int projectId)
         {
-            Project project = db.Projects.Find(projectId);
-            var userObj = project.Users;
-            return db.Users.Where(u => !userObj.Contains(u)).ToList();
+            return db.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToList();
         }
-
-
     }
 }

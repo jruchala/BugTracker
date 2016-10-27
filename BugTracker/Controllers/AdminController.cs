@@ -15,7 +15,7 @@ namespace BugTracker.Controllers
         UserRolesHelper helper = new UserRolesHelper();
 
         // GET: Admin
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             List<UserRolesViewModel> userList = new List<UserRolesViewModel>();
@@ -30,7 +30,7 @@ namespace BugTracker.Controllers
             return View(userList);
         }
 
-        // GET: EditUser
+        // GET: Admin/ManageRoles/5
 
         public ActionResult ManageRoles(string id)
         {
@@ -45,7 +45,7 @@ namespace BugTracker.Controllers
             return View(AdminModel);
         }
 
-        // POST: EditUser
+        // POST: Admin/ManageRoles/5 
 
         public ActionResult ManageRoles(UserRolesViewModel model)
         {
@@ -63,6 +63,7 @@ namespace BugTracker.Controllers
 
             return RedirectToAction("Index");
         }
-     
-        }
+
     }
+}
+
