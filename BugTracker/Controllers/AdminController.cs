@@ -32,7 +32,7 @@ namespace BugTracker.Controllers
 
         // GET: EditUser
 
-        public ActionResult EditUser(string id)
+        public ActionResult ManageRoles(string id)
         {
             var user = db.Users.Find(id);
             UserRolesViewModel AdminModel = new UserRolesViewModel();
@@ -47,7 +47,7 @@ namespace BugTracker.Controllers
 
         // POST: EditUser
 
-        public ActionResult EditUser(UserRolesViewModel model)
+        public ActionResult ManageRoles(UserRolesViewModel model)
         {
             var user = db.Users.Find(model.Id);
             UserRolesHelper helper = new UserRolesHelper();
