@@ -30,7 +30,39 @@ namespace BugTracker.Controllers
             return View(userList);
         }
 
+        // GET: EditUser
+
+        public ActionResult EditUser(string id)
+        {
+            var user = db.Users.Find(id);
+            UserRolesViewModel AdminModel = new UserRolesViewModel();
+            UserRolesHelper helper = new UserRolesHelper();
+            var selected = helper.ListUserRoles(id);
+            AdminModel.UserRoles = new MultiSelectList(db.Roles, "Name", "Name", selected);
+            AdminModel.Id = user.Id;
+            AdminModel.DisplayName = user.FirstName + " " + user.LastName;
+
+            return View(AdminModel);
+        }
+
+        // POST: EditUser
+
+        public ActionResult EditUser(UserRolesViewModel model)
+        {
+            var user = db.Users.Find(model.Id);
+            UserRolesHelper helper = new UserRolesHelper();
+            foreach (var roleRm in db.Roles.Select(r => r.Id).ToList())
+            {
+                helper.RemoveUserFromRole(user.Id, roleRm);
+            }
+
+            foreach (var roleAdd in db.Roles.Select(r => r.Id).ToList())
+            {
+                helper.AddUserToRole(user.Id, roleAdd);
+            }
+
+            return RedirectToAction("Index");
+        }
      
         }
     }
-}

@@ -9,7 +9,13 @@ namespace BugTracker.Models
     public class UserRolesViewModel
     {
         public ApplicationUser User { get; set; }
-        public MultiSelectList Roles { get; set; }
+
+        public List<string> Roles { get; set; }
+        public MultiSelectList UserRoles { get; set; }
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string[] SelectedRoles { get; set; }
     }
 }
