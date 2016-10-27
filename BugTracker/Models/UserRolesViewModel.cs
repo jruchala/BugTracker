@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace BugTracker.Models
 {
-    public class AdminUserViewModel
+    public class UserRolesViewModel
     {
         public ApplicationUser User { get; set; }
         public MultiSelectList Roles { get; set; }
