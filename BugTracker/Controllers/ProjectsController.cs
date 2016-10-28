@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
@@ -68,6 +69,11 @@ namespace BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
+            ProjectAssignHelper helper = new ProjectAssignHelper();
+            var nonProjectUsers = helper.ListUsersNotOnProject(project.Id);
+            var selectableUsers = helper.ListUsersNotOnProject(project.Id).ToArray();
+            var multiSelectUsers = new MultiSelectList(db.Users, "Name", "Name", selectableUsers);
+            
             if (project == null)
             {
                 return HttpNotFound();

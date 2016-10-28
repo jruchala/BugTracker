@@ -35,34 +35,55 @@ namespace BugTracker.Controllers
         public ActionResult ManageRoles(string id)
         {
             var user = db.Users.Find(id);
-            UserRolesViewModel AdminModel = new UserRolesViewModel();
+            var roleUser = new UserRolesViewModel();
             UserRolesHelper helper = new UserRolesHelper();
-            var selected = helper.ListUserRoles(id);
-            AdminModel.UserRoles = new MultiSelectList(db.Roles, "Name", "Name", selected);
-            AdminModel.Id = user.Id;
-            AdminModel.DisplayName = user.FirstName + " " + user.LastName;
+            roleUser.Id = user.Id;
+            roleUser.FirstName = user.FirstName;
+            roleUser.LastName = user.LastName;
+            roleUser.DisplayName = user.FirstName + " " + user.LastName;
+            roleUser.SelectedRoles = helper.ListUserRoles(user.Id).ToArray();
+            roleUser.UserRoles = new MultiSelectList(db.Roles, "Name", "Name", roleUser.SelectedRoles);
 
-            return View(AdminModel);
+            return View(roleUser);
+        }
+
+        // POST: Admin/ManageRoles/5
+
+        [HttpPost]
+        public ActionResult ManageRoles (UserRolesViewModel model)
+        {
+            var user = db.Users.Find(model.Id);
+            foreach (var rolemv in db.Roles.Select(r => r.Name).ToList())
+            {
+                helper.RemoveUserFromRole(user.Id, rolemv);
+            }
+            foreach (var rolemv in model.SelectedRoles)
+            {
+                helper.AddUserToRole(user.Id, rolemv);
+            }
+            ViewBag.confirm = "User's role has been modified";
+
+            return RedirectToAction("Index");
         }
 
         // POST: Admin/ManageRoles/5 
 
-        public ActionResult ManageRoles(UserRolesViewModel model)
-        {
-            var user = db.Users.Find(model.Id);
-            UserRolesHelper helper = new UserRolesHelper();
-            foreach (var roleRm in db.Roles.Select(r => r.Id).ToList())
-            {
-                helper.RemoveUserFromRole(user.Id, roleRm);
-            }
+        //public ActionResult ManageRoles(UserRolesViewModel model)
+        //{
+        //    var user = db.Users.Find(model.Id);
+        //    UserRolesHelper helper = new UserRolesHelper();
+        //    foreach (var roleRm in db.Roles.Select(r => r.Id).ToList())
+        //    {
+        //        helper.RemoveUserFromRole(user.Id, roleRm);
+        //    }
 
-            foreach (var roleAdd in db.Roles.Select(r => r.Id).ToList())
-            {
-                helper.AddUserToRole(user.Id, roleAdd);
-            }
+        //    foreach (var roleAdd in db.Roles.Select(r => r.Id).ToList())
+        //    {
+        //        helper.AddUserToRole(user.Id, roleAdd);
+        //    }
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
     }
 }
