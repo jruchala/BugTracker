@@ -50,6 +50,7 @@ namespace BugTracker.Controllers
         // POST: Admin/ManageRoles/5
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageRoles (UserRolesViewModel model)
         {
             var user = db.Users.Find(model.Id);

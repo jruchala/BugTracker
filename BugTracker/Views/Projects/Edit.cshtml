@@ -11,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => Model.Id)
+    @Html.HiddenFor(m => )
 
     <div class="form-horizontal">
         <h4>Project</h4>
@@ -39,7 +40,7 @@
             }
         </div>
         <div>
-
+            @Html.ListBox("selectableUsers", Model.)
         </div>
 
 

@@ -97,6 +97,40 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        // GET: Projects/AssignUsers/5
+
+        public ActionResult AssignUsers(int id)
+        {
+            Project project = db.Projects.Find(id);
+            ProjectAssignHelper helper = new ProjectAssignHelper();
+            var projectUser = new ProjectUserViewModel();
+            projectUser.Id = project.Id;
+            projectUser.Name = project.Name;
+            projectUser.Users = db.Users.ToList();
+            var selectableUsers = helper.ListUsersNotOnProject(projectUser.Id).ToArray();
+            projectUser.ProjectUsers = new MultiSelectList(db.Users, "FirstName", "LastName", selectableUsers);
+
+            return View(projectUser);
+        }
+
+        
+
+        // POST: Projects/AssignUsers/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignUsers([Bind(Include = "Id,Name")] Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(project);
+        }
+
+
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
