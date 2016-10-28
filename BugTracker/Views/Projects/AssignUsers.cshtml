@@ -5,24 +5,29 @@
 
 <h2>Assign User</h2>
 
-@using (Html.BeginForm("AssignUsers", "Project", FormMethod.Post))
+@using (Html.BeginForm("AssignUsers", "Projects", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => Model.Id)
-    <hr/>
+    @Html.HiddenFor(Model => Model.Id)
+    
+    <hr />
     <h4>Project: @Model.Name</h4>
 
     <h4>Chose Users to Assign to this project</h4>
-    
-    foreach (var user in Model.Users)
-    {
-        @user.FirstName  @user.LastName
-        <br />
-    }
 
-    @Html.ListBox("Select User", Model.ProjectUsers)
+//    foreach (var user in Model.Users)
+//    {
+//        @user.FirstName  @user.LastName
+//        <br />
+//    }
+
+    @Html.ListBox("SelectedUsers", Model.ProjectUsers)
 
     <button type="submit">
         Submit
     </button>
+
+    <div>
+    
+    </div>
 }

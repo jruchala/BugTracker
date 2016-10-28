@@ -8,12 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
 using BugTracker.Helpers;
+using System.Runtime.Remoting.Messaging;
 
 namespace BugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        ProjectAssignHelper helper = new ProjectAssignHelper();
 
         // GET: Projects
         public ActionResult Index()
@@ -69,7 +71,6 @@ namespace BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
-            ProjectAssignHelper helper = new ProjectAssignHelper();
             var nonProjectUsers = helper.ListUsersNotOnProject(project.Id);
             var selectableUsers = helper.ListUsersNotOnProject(project.Id).ToArray();
             var multiSelectUsers = new MultiSelectList(db.Users, "Name", "Name", selectableUsers);
@@ -104,30 +105,33 @@ namespace BugTracker.Controllers
             Project project = db.Projects.Find(id);
             ProjectAssignHelper helper = new ProjectAssignHelper();
             var projectUser = new ProjectUserViewModel();
+            projectUser.Project = project;
             projectUser.Id = project.Id;
             projectUser.Name = project.Name;
             projectUser.Users = db.Users.ToList();
-            var selectableUsers = helper.ListUsersNotOnProject(projectUser.Id).ToArray();
-            projectUser.ProjectUsers = new MultiSelectList(db.Users, "FirstName", "LastName", selectableUsers);
+            projectUser.SelectedUsers = helper.ListProjectUsers(projectUser.Id).Select(p => p.Id).ToArray();
+            projectUser.ProjectUsers = new MultiSelectList(db.Users, "Id", "LastName", projectUser.SelectedUsers);
 
             return View(projectUser);
         }
 
-        
-
         // POST: Projects/AssignUsers/5
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignUsers([Bind(Include = "Id,Name")] Project project)
-        {
-            if (ModelState.IsValid)
+        public ActionResult AssignUsers(ProjectUserViewModel model)
+        {                
+            var project = db.Projects.Find(model.Id);
+            foreach (var UserRm in db.Users.Select(r => r.Id).ToList())
             {
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                helper.RemoveUserFromProject(UserRm, project.Id);
+            }
+            //foreach (var UserAdd in db.Users.Select(r => r.Id).ToList())
+            foreach (var UserAdd in model.SelectedUsers)
+            {
+                helper.AddUserToProject(UserAdd, project.Id);
             }
 
-            return View(project);
+            return RedirectToAction("Details", "Projects", new { id = model.Id });   
         }
 
 
