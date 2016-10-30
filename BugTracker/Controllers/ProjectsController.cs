@@ -18,6 +18,7 @@ namespace BugTracker.Controllers
         ProjectAssignHelper helper = new ProjectAssignHelper();
 
         // GET: Projects
+        [Authorize(Roles ="Admin, Project Manager")]
         public ActionResult Index()
         {
             return View(db.Projects.ToList());
@@ -99,7 +100,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/AssignUsers/5
-
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult AssignUsers(int id)
         {
             Project project = db.Projects.Find(id);
@@ -136,6 +137,7 @@ namespace BugTracker.Controllers
 
 
         // GET: Projects/Delete/5
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
