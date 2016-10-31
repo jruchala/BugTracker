@@ -10,9 +10,11 @@ using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
+
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -242,6 +244,33 @@ namespace BugTracker.Controllers
             }
             AddErrors(result);
             return View(model);
+        }
+
+        // GET: /Manage/ChangeName
+        public ActionResult ChangeName()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            return View(user);
+        }
+
+        //
+        // POST: /Manage/ChangeName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeName([Bind(Include = "Id,FirstName,LastName,Email")]ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Attach(user);
+                user.UserName = user.Email;
+                db.Entry(user).Property("FirstName").IsModified = true;
+                db.Entry(user).Property("LastName").IsModified = true;
+                db.Entry(user).Property("Email").IsModified = false; // TODO: Why? Is this right?
+                db.Entry(user).Property("UserName").IsModified = true;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(user);
         }
 
         //

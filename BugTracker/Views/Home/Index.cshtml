@@ -6,7 +6,10 @@
     <div class="row">
         <div class="col-md-10">
             <br />
-            <a href="@Url.Action("ProjectList")" role="button" class="btn btn-default">My Projects</a>
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
+            {
+                <a href="@Url.Action("ProjectList")" role="button" class="btn btn-default">My Projects</a>
+            }
             <br />
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
             {
