@@ -72,10 +72,10 @@ namespace BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
-            var nonProjectUsers = helper.ListUsersNotOnProject(project.Id);
-            var selectableUsers = helper.ListUsersNotOnProject(project.Id).ToArray();
-            var multiSelectUsers = new MultiSelectList(db.Users, "Name", "Name", selectableUsers);
-            
+            //var nonProjectUsers = helper.ListUsersNotOnProject(project.Id);
+            //var selectableUsers = helper.ListUsersNotOnProject(project.Id).ToArray();
+            //var multiSelectUsers = new MultiSelectList(db.Users, "Name", "Name", selectableUsers);
+
             if (project == null)
             {
                 return HttpNotFound();
@@ -94,7 +94,7 @@ namespace BugTracker.Controllers
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Projects");
             }
             return View(project);
         }
