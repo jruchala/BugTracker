@@ -265,7 +265,7 @@ namespace BugTracker.Controllers
                 user.UserName = user.Email;
                 db.Entry(user).Property("FirstName").IsModified = true;
                 db.Entry(user).Property("LastName").IsModified = true;
-                db.Entry(user).Property("Email").IsModified = false; // TODO: Why? Is this right?
+                db.Entry(user).Property("Email").IsModified = true; 
                 db.Entry(user).Property("UserName").IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");

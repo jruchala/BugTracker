@@ -118,14 +118,4 @@ namespace BugTracker.Models
         public string Email { get; set; }
     }
 
-    public class ChangeNameViewModel
-    {
-        [Required]
-        [Display(Name = "FirstName")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "LastName")]
-        public string LastName { get; set; }
-    }
 }
