@@ -1,86 +1,99 @@
 ﻿@model IEnumerable<BugTracker.Models.Ticket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Tickets";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create a Ticket", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            Owner
-        </th>
-        <th>
-            Assigned
-        </th>
-        <th>
-            Project
-        </th>
-        <th>
-            Priority
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Type
-        </th>
-        <th>
-            Title
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Updated)
-        </th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>
+                Owner
+            </th>
+            <th>
+                Assigned
+            </th>
+            <th>
+                Project
+            </th>
+            <th>
+                Priority
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketType.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Updated)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
-        </td>
-    </tr>
-}
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) 
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+@section scripts{
+
+    <!--DataTables-->
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+          $('.table').DataTable();
+    </script>
+}
