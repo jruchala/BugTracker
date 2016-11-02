@@ -317,8 +317,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Plugins\metisMenu\jquery.metisMenu.js" />
+    <Content Include="Scripts\Plugins\pace\pace-theme-big-counter.css" />
+    <Content Include="Scripts\Plugins\pace\pace.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\siminta.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Shared\index.html" />
     <Content Include="Web.config">

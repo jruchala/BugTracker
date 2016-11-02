@@ -2,9 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 <link href="assets/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
+<br />
+<br />
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <br />
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
             {
@@ -24,3 +26,8 @@
         </div>
     </div>
 </div>
+
+    <!-- Page-Level Plugin Scripts-->
+    <script src="assets/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="assets/plugins/morris/morris.js"></script>
+    <script src="assets/scripts/dashboard-demo.js"></script>

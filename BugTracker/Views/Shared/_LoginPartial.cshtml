@@ -1,5 +1,28 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+<li>
+    <a href="@Url.Action("Register", "Account")"><i class="fa fa-user fa-fw"></i>Register</a>
+</li>
+<li>
+    <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i>Settings</a>
+</li>
+<li class="divider"></li>
+<li>
+    @if (Request.IsAuthenticated)
+    {
+        <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+    }
+    else
+    {
+        <a href="@Url.Action("Login", "Account")"><i class="fa fa-sign-in fa-fw"></i>Log in</a>
+    }
+</li>
+
+
+
+
+
+@*Commented out template _loginpartial*@
+@*@if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -19,4 +42,4 @@ else
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
-}
+}*@
