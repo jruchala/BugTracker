@@ -23,6 +23,11 @@
             {
                 <a href="@Url.Action("Index", "Admin")" role="button" class="btn btn-success">View User Roles</a>
             }
+            <br />
+            @if (User.IsInRole("Submitter"))
+            {
+                <a href="@Url.Action("Create", "Tickets")" role="button" class="btn btn-danger">Create Ticket</a>
+            }
         </div>
     </div>
 </div>
