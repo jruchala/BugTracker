@@ -317,9 +317,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\Plugins\dataTables\dataTables.bootstrap.css" />
-    <Content Include="Scripts\Plugins\dataTables\dataTables.bootstrap.js" />
-    <Content Include="Scripts\Plugins\dataTables\jquery.dataTables.js" />
     <Content Include="Scripts\Plugins\metisMenu\jquery.metisMenu.js" />
     <Content Include="Scripts\Plugins\pace\pace-theme-big-counter.css" />
     <Content Include="Scripts\Plugins\pace\pace.js" />
@@ -382,7 +379,6 @@
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
-    <Content Include="Views\Shared\_UserName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
