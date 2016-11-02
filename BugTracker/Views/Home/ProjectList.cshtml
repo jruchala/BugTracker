@@ -18,8 +18,17 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Name) |
+                @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, "")
+                @{if (User.IsInRole("Submitter"))
+                    {
+                        @Html.ActionLink(" | Create Ticket", "Create", "Tickets")
+                    }
+                }
             </td>
+
+
+
             </tr>
     }
 </table>

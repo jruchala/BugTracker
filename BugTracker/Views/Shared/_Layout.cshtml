@@ -278,7 +278,10 @@
                 <!--end search section-->
             </li>*@
                     <li class="selected">
-                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                        <a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard fa-fw"></i>Home</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ProjectList", "Home")"><i class="fa fa-clipboard fa-fw"></i>My Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
