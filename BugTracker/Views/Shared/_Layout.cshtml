@@ -262,9 +262,7 @@
                                 <img src="assets/img/user.jpg" alt="">
                             </div>
                             <div class="user-info">
-                            @*@if (Request.IsAuthenticated) { 
-                                @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                            }*@
+                                @Html.Partial("_UserName")
                             </div>
                         </div>
                         <!--end user image section-->

@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<BugTracker.Models.Ticket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tickets";
 }
-
-<h2>Index</h2>
+<br />
+<br />
+<h2>Tickets</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create a New Ticket", "Create")
 </p>
 <table class="table" id="myTable">
     <thead>
@@ -90,7 +91,7 @@
 
 </table>
 @section scripts{
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+   
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable();
