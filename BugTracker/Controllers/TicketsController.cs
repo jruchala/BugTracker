@@ -39,11 +39,17 @@ namespace BugTracker.Controllers
 
         // GET: Tickets/Create
         [Authorize(Roles ="Submitter")]
-        public ActionResult Create()
+        public ActionResult Create(int? projectId)
         {
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
+            if (projectId != null)
+            {
+                ViewBag.ProjectId = projectId;
+            }
+            else
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            }
             
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
@@ -55,7 +61,7 @@ namespace BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Id,title,description,Created,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +73,9 @@ namespace BugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+        
 
-            
+
             ViewBag.OwnerUserId = ticket.OwnerUserId;
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
