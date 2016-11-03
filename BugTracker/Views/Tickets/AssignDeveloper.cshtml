@@ -13,31 +13,27 @@
     <div class="form-horizontal">
         <h4>Ticket</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <h5><strong>Project:</strong> @ViewBag.Project</h5>
+        <h5><strong>Bug Title:</strong> @ViewBag.Title</h5>
+        <p>@ViewBag.Description</p>
+        <hr />
         
         <h4>Assign a Developer</h4>
         <div class="form-group">
             
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-3">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+
+        @Html.ActionLink("Back to Tickets", "Index")
 
     </div>
 }

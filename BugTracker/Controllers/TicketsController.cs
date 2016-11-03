@@ -169,10 +169,12 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Project Manager")]
         public ActionResult AssignDeveloper(int id)
         {
-
             Ticket ticket = db.Tickets.Find(id);
             var devs = userHelper.UsersInRole("Developer");
             ViewBag.AssignedToUserId = new SelectList(devs, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.Project = ticket.Project.Name;
+            ViewBag.Title = ticket.title;
+            ViewBag.Description = ticket.description;
             return View(ticket);
         }
 
