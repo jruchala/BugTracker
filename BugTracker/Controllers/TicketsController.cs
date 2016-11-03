@@ -167,7 +167,7 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("TicketStatusId").IsModified = false;
                 db.Entry(ticket).Property("TicketTypeId").IsModified = true;
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
-                db.Entry(ticket).Property("AssignedToUserId").IsModified = true;
+                db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -182,7 +182,7 @@ namespace BugTracker.Controllers
         {
             Ticket ticket = db.Tickets.Find(id);
             var devs = userHelper.UsersInRole("Developer");
-            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName", ticket.AssignedToUserId);
             ViewBag.Project = ticket.Project.Name;
             ViewBag.Title = ticket.title;
             ViewBag.Description = ticket.description;
