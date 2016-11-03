@@ -133,11 +133,16 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+
+            var userId = db.Users.Find(User.Identity.GetUserId()).Id;
+            var myProjects = helper.ListUserProjects(userId);
+            var submitters = userHelper.UsersInRole("Submitter");
+            var developers = userHelper.UsersInRole("Developers");
+            ViewBag.AssignedToUserId = new SelectList(developers, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.OwnerUserId = new SelectList(submitters, "Id", "FirstName", ticket.OwnerUserId);
+            ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+            
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
@@ -151,16 +156,22 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ticket).State = EntityState.Modified;
+                ticket.Updated = DateTime.Now;
+                db.Tickets.Attach(ticket);
+                db.Entry(ticket).Property("title").IsModified = true;
+                db.Entry(ticket).Property("description").IsModified = true;
+                db.Entry(ticket).Property("Created").IsModified = false;
+                db.Entry(ticket).Property("Updated").IsModified = true;
+                db.Entry(ticket).Property("ProjectId").IsModified = true;
+                db.Entry(ticket).Property("TicketPriorityId").IsModified = true;
+                db.Entry(ticket).Property("TicketStatusId").IsModified = false;
+                db.Entry(ticket).Property("TicketTypeId").IsModified = true;
+                db.Entry(ticket).Property("OwnerUserId").IsModified = false;
+                db.Entry(ticket).Property("AssignedToUserId").IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+
             return View(ticket);
         }
 
