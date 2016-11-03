@@ -16,6 +16,7 @@ namespace BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public ProjectAssignHelper helper = new ProjectAssignHelper();
+        public UserRolesHelper userHelper = new UserRolesHelper();
 
         // GET: Tickets
         [Authorize]
@@ -161,6 +162,26 @@ namespace BugTracker.Controllers
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
+        }
+
+
+        // GET: Tickets/AssignDeveloper/5
+        [Authorize(Roles = "Project Manager")]
+        public ActionResult AssignDeveloper(int id)
+        {
+
+            Ticket ticket = db.Tickets.Find(id);
+            var devs = userHelper.UsersInRole("Developer");
+            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "FirstName", ticket.AssignedToUserId);
+            return View(ticket);
+        }
+
+        // POST: Tickets/AssignDeveloper/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignDeveloper([Bind(Include = "Id,AssignedToUserId,TicketStatus")] Ticket ticket)
+        {
+            return View("Index", "Tickets");
         }
 
         // NO Delete Ticket Method, per SRS
