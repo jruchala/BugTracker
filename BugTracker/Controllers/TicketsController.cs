@@ -179,9 +179,32 @@ namespace BugTracker.Controllers
         // POST: Tickets/AssignDeveloper/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignDeveloper([Bind(Include = "Id,AssignedToUserId,TicketStatus")] Ticket ticket)
+        public ActionResult AssignDeveloper([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
-            return View("Index", "Tickets");
+            if (ModelState.IsValid)
+            {
+                db.Tickets.Attach(ticket);
+                ticket.TicketStatusId = 2;
+                db.Entry(ticket).Property("title").IsModified = false;
+                db.Entry(ticket).Property("description").IsModified = false;
+                db.Entry(ticket).Property("Created").IsModified = false;
+                db.Entry(ticket).Property("Updated").IsModified = false;
+                db.Entry(ticket).Property("ProjectId").IsModified = false;
+                db.Entry(ticket).Property("TicketPriorityId").IsModified = false;
+                db.Entry(ticket).Property("TicketStatusId").IsModified = true;
+                db.Entry(ticket).Property("TicketTypeId").IsModified = false;
+                db.Entry(ticket).Property("OwnerUserId").IsModified = false;
+                db.Entry(ticket).Property("AssignedToUserId").IsModified = true;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(ticket);
+
+
+            //ticket.TicketStatusId = 2;
+            //db.Entry(ticket).State = EntityState.Modified;
+            //db.SaveChanges();
+            //return View("Index", "Tickets");
         }
 
         // NO Delete Ticket Method, per SRS
