@@ -8,18 +8,54 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public ProjectAssignHelper helper = new ProjectAssignHelper();
 
         // GET: Tickets
+        [Authorize]
         public ActionResult Index()
         {
-            var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            return View(tickets.ToList());
+            if (User.IsInRole("Admin"))
+            { 
+                var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+                return View(tickets.ToList());
+            }
+            else if (User.IsInRole("Submitter"))
+            {
+                var user = db.Users.Find(User.Identity.GetUserId()).Id;
+                var tickets = db.Tickets.Where(t => t.OwnerUserId == user).Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+                return View(tickets.ToList());
+            }
+            else if (User.IsInRole("Developer"))
+            {
+                var user = db.Users.Find(User.Identity.GetUserId()).Id;
+                var tickets = db.Tickets.Where(t => t.AssignedToUserId == user).Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+                return View(tickets.ToList());
+            }
+            else if (User.IsInRole("Project Manager"))
+            {
+                var tickets = new List<Ticket>();
+                var myProjects = helper.ListUserProjects(User.Identity.GetUserId());
+                foreach (var project in myProjects)
+                {
+                    foreach (var ticket in project.Tickets)
+                    {
+                        tickets.Add(ticket);
+                    }
+                }
+                return View(tickets.ToList());
+            }
+            else
+            {
+                return View();
+            }
+
         }
 
         // GET: Tickets/Details/5
