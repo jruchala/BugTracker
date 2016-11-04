@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.description, "Description",  htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketPriorityId, "TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TicketPriorityId, "Priority", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketTypeId, "TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TicketTypeId, "Ticket Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
@@ -61,9 +61,17 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+
     </div>
-            }
+}
 
 <div>
     @Html.ActionLink("Back to List", "Index")
+    <br />
+    @{if (User.IsInRole("Developer") || User.IsInRole("Project Manager"))
+        {
+            @Html.ActionLink("Resolve Ticket", "Resolve")
+        }
+
+    }
 </div>

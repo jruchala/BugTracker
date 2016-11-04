@@ -212,14 +212,53 @@ namespace BugTracker.Controllers
                 return RedirectToAction("Index");
             }
             return View(ticket);
-
-
+            
             //ticket.TicketStatusId = 2;
             //db.Entry(ticket).State = EntityState.Modified;
             //db.SaveChanges();
             //return View("Index", "Tickets");
         }
 
+
+        // GET: Tickets/Resolve/5
+        [Authorize(Roles = "Developer, Project Manager")]
+        public ActionResult Resolve(int id)
+        {
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.TicketTitle = ticket.title;
+            return View(ticket);
+        }
+
+        // POST: Tickets/Resolve/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Resolve([Bind(Include = "Id, title, description, Created, Updated, ProjectId, TicketPriorityId, TicketStatusId, TicketTypeId, OwnerUserId, AssignedToUserId")] Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Tickets.Attach(ticket);
+                ticket.TicketStatusId = 3;
+                ticket.Updated = DateTime.Now;
+                db.Entry(ticket).Property("title").IsModified = false;
+                db.Entry(ticket).Property("description").IsModified = false;
+                db.Entry(ticket).Property("Created").IsModified = false;
+                db.Entry(ticket).Property("Updated").IsModified = true;
+                db.Entry(ticket).Property("ProjectId").IsModified = false;
+                db.Entry(ticket).Property("TicketPriorityId").IsModified = false;
+                db.Entry(ticket).Property("TicketStatusId").IsModified = true;
+                db.Entry(ticket).Property("TicketTypeId").IsModified = false;
+                db.Entry(ticket).Property("OwnerUserId").IsModified = false;
+                db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
+                db.SaveChanges();
+                
+                return RedirectToAction("Index");
+            }
+            return View(ticket);
+        }
         // NO Delete Ticket Method, per SRS
         // GET: Tickets/Delete/5
         // POST: Tickets/Delete/5
