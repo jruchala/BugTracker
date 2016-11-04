@@ -19,7 +19,7 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name) |
-                @Html.ActionLink("Details", "Details", "Projects", new { projectId = item.Id }, "")
+                @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, "")
                 @{if (User.IsInRole("Submitter"))
                     {
                         @Html.ActionLink(" | Create Ticket", "Create", "Tickets", new { projectId = item.Id }, "")
