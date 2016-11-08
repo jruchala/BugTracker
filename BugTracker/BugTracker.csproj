@@ -238,6 +238,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ProjectUserViewModel.cs" />
+    <Compile Include="Models\TicketAttachmentsController.cs" />
     <Compile Include="Models\UserRolesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -388,6 +389,11 @@
     <Content Include="Views\TicketComments\Details.cshtml" />
     <Content Include="Views\TicketComments\Edit.cshtml" />
     <Content Include="Views\TicketComments\Index.cshtml" />
+    <Content Include="Views\TicketAttachments\Create.cshtml" />
+    <Content Include="Views\TicketAttachments\Delete.cshtml" />
+    <Content Include="Views\TicketAttachments\Details.cshtml" />
+    <Content Include="Views\TicketAttachments\Edit.cshtml" />
+    <Content Include="Views\TicketAttachments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
