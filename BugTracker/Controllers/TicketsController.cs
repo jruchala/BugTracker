@@ -71,6 +71,8 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.UserId = db.Users.Find(User.Identity.GetUserId()).Id;
             return View(ticket);
         }
 
