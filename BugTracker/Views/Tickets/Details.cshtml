@@ -93,5 +93,57 @@
             </p>
         </div>
     </div>
+
+    @*Begin Comments section*@
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Comments</h3>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken();
+                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment" name="Comment" rows="6" placeholder="Enter a comment."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")" class="btn brn-primary" role="button">Please Login to Comment</a>
+            }
+
+            <div class="row">
+                @foreach (var comment in Model.TicketComments.Reverse())
+                {
+                    <p>
+                        @if (!String.IsNullOrWhiteSpace(comment.UserId))
+                        {
+                            if (!String.IsNullOrWhiteSpace(comment.User.LastName))
+                            {
+                                <h5>@comment.User.LastName wrote: </h5>
+                            }
+                        }
+                        <h5>@comment.Comment</h5>
+                        <br />
+                        <h6><em>@comment.Created</em></h6>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="btn btn-link" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button">Edit</a>
+                            <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
+                        }
+                    </p>
+                    <hr class="small" />
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
