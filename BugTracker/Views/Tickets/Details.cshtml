@@ -125,6 +125,14 @@
                                 <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
                             }
                         }
+                        @if (User.IsInRole("Project Manager"))
+                        {
+                            if (Model.Project.Users.Contains(ViewBag.UserObject))
+                            {
+                                <a class="btn btn-link" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button">Edit</a>
+                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
+                            }
+                        }
 
                     </p>
                     <hr class="small" />

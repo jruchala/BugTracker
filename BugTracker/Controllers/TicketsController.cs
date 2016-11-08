@@ -73,6 +73,7 @@ namespace BugTracker.Controllers
             }
 
             ViewBag.UserId = db.Users.Find(User.Identity.GetUserId()).Id;
+            ViewBag.UserObject = db.Users.Find(User.Identity.GetUserId());
             return View(ticket);
         }
 
