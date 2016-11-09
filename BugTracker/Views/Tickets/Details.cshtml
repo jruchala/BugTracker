@@ -166,12 +166,19 @@
             <h3>Attachments</h3>
             @foreach (var attachment in Model.TicketAttachments.Reverse())
             {
-                @attachment.Created
-                <br />
-                @attachment.Description
-                
+                <p>
+                    @attachment.User.LastName added:
+                    <br />
+                    <a href="@Href(attachment.FileUrl)">@attachment.Description</a>
+                   
+                </p>
+                <p>
+                    <h6><em>@attachment.Created</em></h6>
+                    <br />
+                </p>
+                <hr />
             }
-            <hr />
+
             <a class="btn btn-link" href="@Url.Action("Create", "TicketAttachments", new {id = Model.Id})" role="button">Add Attachment</a>
         </div>
     </div>
