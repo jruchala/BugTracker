@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-6">
             <h3>Comments</h3>
-            <div class="row">
+            
                 @foreach (var comment in Model.TicketComments.Reverse())
                 {
                     <p>
@@ -159,7 +159,7 @@
                     <a href="@Url.Action("Login", "Account")" class="btn brn-primary" role="button">Please Login to Comment</a>
                 }
 
-            </div>
+            
         </div>
         @*Begin Attachments section*@
         <div class="col-md-6">
@@ -176,6 +176,27 @@
                     <h6><em>@attachment.Created</em></h6>
                     <br />
                 </p>
+                if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
+                            <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                }
+                if (User.IsInRole("Submitter") || User.IsInRole("Developer"))
+                {
+                    if (attachment.UserId == ViewBag.UserId)
+                    {
+                        <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
+                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                    }
+                }
+                if (User.IsInRole("Project Manager"))
+                {
+                    if (Model.Project.Users.Contains(ViewBag.UserObject))
+                    {
+                        <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
+                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                    }
+                }
                 <hr />
             }
 

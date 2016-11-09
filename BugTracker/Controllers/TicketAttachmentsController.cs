@@ -65,14 +65,10 @@ namespace BugTracker.Models
                     var fileName = Path.GetFileName(attachment.FileName);
                     attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
                     ticketAttachment.FileUrl = "~/Content/Uploads/" + fileName;
-                
                     ticketAttachment.Created = DateTime.Now;
-                   
-
                     db.TicketAttachments.Add(ticketAttachment);
                     db.SaveChanges();
                     return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
-                    
                 }
             }
 
@@ -82,6 +78,7 @@ namespace BugTracker.Models
         }
 
         // GET: TicketAttachments/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -103,13 +100,20 @@ namespace BugTracker.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,FilePath,Description,Created,UserId,FileUrl")] TicketAttachment ticketAttachment)
+        public ActionResult Edit([Bind(Include = "Id,Description,Created,TicketId,UserId,FileUrl")] TicketAttachment ticketAttachment, HttpPostedFileBase attachment)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ticketAttachment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (attachment != null)
+                {
+                    var fileName = Path.GetFileName(attachment.FileName);
+                    attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
+                    ticketAttachment.FileUrl = "~/Content/Uploads/" + fileName;
+                    db.TicketAttachments.Add(ticketAttachment);
+                    db.Entry(ticketAttachment).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
+                }
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "title", ticketAttachment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
