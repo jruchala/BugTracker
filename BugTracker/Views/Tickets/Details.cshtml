@@ -164,21 +164,15 @@
         @*Begin Attachments section*@
         <div class="col-md-6">
             <h3>Attachments</h3>
-            @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+            @foreach (var attachment in Model.TicketAttachments.Reverse())
             {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger"})
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="file" name="FileUrl" id="fileUpload" onchange="loadFile(event)" />
-                            @Html.ValidationMessageFor(model => model.TicketAttachment
-                        </div>
-                    </div>
-                </div>
+                @attachment.Created
+                <br />
+                @attachment.Description
+                
             }
-
+            <hr />
+            <a class="btn btn-link" href="@Url.Action("Create", "TicketAttachments", new {id = Model.Id})" role="button">Add Attachment</a>
         </div>
     </div>
 </div>

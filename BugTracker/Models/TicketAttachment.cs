@@ -11,7 +11,7 @@ namespace BugTracker.Models
         //TODO: Add TicketAttachment properties
         public int Id { get; set; }
         public int TicketId { get; set; }
-        public string FilePath { get; set; }
+        
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
