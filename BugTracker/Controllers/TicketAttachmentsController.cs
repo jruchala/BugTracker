@@ -18,7 +18,7 @@ namespace BugTracker.Models
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketAttachments
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
@@ -143,7 +143,7 @@ namespace BugTracker.Models
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
         }
 
         protected override void Dispose(bool disposing)
