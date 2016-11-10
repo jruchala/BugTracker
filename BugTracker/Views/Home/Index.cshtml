@@ -10,8 +10,27 @@
             <br />
             <h2>Welcome to BugTracker</h2>
             <br />
+
+
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
             {
+                <h3>User: @User.Identity.Name</h3>
+                if (User.IsInRole("Admin"))
+                {
+                    <h4>Role: Admin <i class="fa fa-gavel"></i></h4>
+                }
+                else if (User.IsInRole("Developer"))
+                {
+                    <h4>Role: Developer <i class="fa fa-code"></i></h4>
+                }
+                else if (User.IsInRole("Project Manager"))
+                {
+                    <h4>Role: Project Manager <i class="fa fa-cogs"></i></h4>
+                }
+                else if (User.IsInRole("Submitter"))
+                {
+                    <h4>Role: Submitter <i class="fa fa-crosshairs"></i></h4>
+                }
                 <a href="@Url.Action("ProjectList")" role="button" class="btn btn-default">My Projects</a>
                 <a href="@Url.Action("Index", "Tickets")" role="button" class="btn btn-danger">My Tickets</a>
             }

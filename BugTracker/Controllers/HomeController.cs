@@ -33,6 +33,7 @@ namespace BugTracker.Controllers
             return View();
         }
         
+        [Authorize]
         public ActionResult ProjectList()
         {
             var user = User.Identity.GetUserId();

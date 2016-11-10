@@ -2,7 +2,11 @@
 <br />
 <br />
 @if (Request.IsAuthenticated) {
-        @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+    <ul style="list-style-type:none; display:inline;">
+        <li>
+            <i class="fa fa-user fa-fw" style="color:white"></i>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+    </ul>
 }
 else
 {

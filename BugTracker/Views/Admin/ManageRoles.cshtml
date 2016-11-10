@@ -18,21 +18,16 @@
     </div>
     <hr />
     <h4>Choose Role(s) To Be Assigned: </h4>
-    @Html.ListBox("SelectedRoles", Model.UserRoles)
+    @Html.ListBox("SelectedRoles", Model.UserRoles, new { style = "width: 150px"})
     <h6>
         <em>
             (To choose multiple roles "Control + click" )
         </em>
     </h6>
-    <hr />
 
-
-
-    <button type="submit">
-        Submit
-    </button>
+    <button class="btn btn-default" type="submit">Submit</button>
 }
 <hr />
-<button class="btn-sm btn-default">
+<button class="btn btn-default">
     @Html.ActionLink("Back To List", "Index")
 </button>
