@@ -104,16 +104,16 @@ namespace BugTracker.Models
         {
             if (ModelState.IsValid)
             {
-                if (attachment != null)
+                if (attachment != null && attachment.ContentLength > 0)
                 {
                     var fileName = Path.GetFileName(attachment.FileName);
                     attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
                     ticketAttachment.FileUrl = "~/Content/Uploads/" + fileName;
                     db.TicketAttachments.Add(ticketAttachment);
-                    db.Entry(ticketAttachment).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
                 }
+                db.Entry(ticketAttachment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "title", ticketAttachment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
