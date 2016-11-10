@@ -20,6 +20,7 @@ namespace BugTracker.Models
         public string UserId { get; set; }
 
         [DataType(DataType.Upload)]
+        [Display(Name ="File")]
         public string FileUrl { get; set; }
 
   
