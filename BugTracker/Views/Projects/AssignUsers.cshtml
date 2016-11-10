@@ -21,13 +21,16 @@
 //        <br />
 //    }
 
-    @Html.ListBox("SelectedUsers", Model.ProjectUsers)
+    @Html.ListBox("SelectedUsers", Model.ProjectUsers, new { style = "width:200px; height:200px"})
 
-    <button type="submit">
+    <br />
+    <button class="btn btn-default" type="submit">
         Submit
     </button>
-
+    <br />
     <div>
-    
+        <button class="btn btn-default">
+            @Html.ActionLink("Back to Projects", "Index", "Projects")
+        </button>
     </div>
 }

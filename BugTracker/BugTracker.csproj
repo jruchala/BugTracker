@@ -263,6 +263,8 @@
     <Content Include="assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="assets\img\logo.png_old" />
+    <Content Include="assets\img\logo-blackonwhite.png" />
     <Content Include="assets\img\logo.png" />
     <Content Include="assets\img\user.jpg" />
     <Content Include="assets\plugins\bootstrap\bootstrap.css" />
