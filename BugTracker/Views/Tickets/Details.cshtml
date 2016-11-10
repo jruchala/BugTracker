@@ -114,23 +114,23 @@
                         <h6><em>@comment.Created</em></h6>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a class="btn btn-link" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button">Edit</a>
-                            <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
+                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                            <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                         }
                         @if (User.IsInRole("Submitter") || User.IsInRole("Developer"))
                         {
                             if (comment.UserId == ViewBag.UserId)
                             {
-                                <a class="btn btn-link" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button">Edit</a>
-                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
+                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                                <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                             }
                         }
                         @if (User.IsInRole("Project Manager"))
                         {
                             if (Model.Project.Users.Contains(ViewBag.UserObject))
                             {
-                                <a class="btn btn-link" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button">Edit</a>
-                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button">Delete</a>
+                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                                <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                             }
                         }
 
@@ -146,7 +146,7 @@
                         <input type="hidden" name="TicketId" value="@Model.Id" />
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <textarea class="form-control" id="comment" name="Comment" rows="6" placeholder="Enter a comment."></textarea>
+                                <textarea class="form-control" id="comment" name="Comment" rows="6" cols="6" placeholder="Enter a comment."></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-default" />

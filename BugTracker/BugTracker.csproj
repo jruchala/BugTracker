@@ -257,6 +257,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="assets\css\main-style.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\font-awesome\css\font-awesome.css" />
@@ -293,7 +294,7 @@
     <Content Include="assets\scripts\siminta.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
+    <None Include="favicon.ico_old" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
