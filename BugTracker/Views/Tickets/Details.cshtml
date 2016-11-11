@@ -88,7 +88,8 @@
     <div class="row">
         <div class="col-md-8">
             <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                <a  href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-sm btn-primary" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                
                 @Html.ActionLink("Back to List", "Index")
             </p>
         </div>
@@ -174,27 +175,27 @@
                 </p>
                 <p>
                     <h6><em>@attachment.Created</em></h6>
-                    <br />
+                    
                 </p>
                 if (User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
-                            <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                    <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                 }
                 if (User.IsInRole("Submitter") || User.IsInRole("Developer"))
                 {
                     if (attachment.UserId == ViewBag.UserId)
                     {
-                        <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
-                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                        <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                        <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                     }
                 }
                 if (User.IsInRole("Project Manager"))
                 {
                     if (Model.Project.Users.Contains(ViewBag.UserObject))
                     {
-                        <a class="btn btn-link" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button">Edit</a>
-                                <a class="btn btn-link" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button">Delete</a>
+                        <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                        <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketAttachments", new { id = attachment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                     }
                 }
                 <hr />

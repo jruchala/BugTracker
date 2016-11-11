@@ -60,7 +60,7 @@ namespace BugTracker.Models
         {
             if (ModelState.IsValid)
             {
-                if (attachment != null)
+                if (FileUploadValidator.IsWebFriendlyFile(attachment))
                 {
                     var fileName = Path.GetFileName(attachment.FileName);
                     attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
@@ -106,10 +106,13 @@ namespace BugTracker.Models
             {
                 if (attachment != null && attachment.ContentLength > 0)
                 {
-                    var fileName = Path.GetFileName(attachment.FileName);
-                    attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
-                    ticketAttachment.FileUrl = "~/Content/Uploads/" + fileName;
-                    db.TicketAttachments.Add(ticketAttachment);
+                    if (FileUploadValidator.IsWebFriendlyFile(attachment))
+                    {
+                        var fileName = Path.GetFileName(attachment.FileName);
+                        attachment.SaveAs(Path.Combine(Server.MapPath("~/Content/Uploads"), fileName));
+                        ticketAttachment.FileUrl = "~/Content/Uploads/" + fileName;
+                        db.TicketAttachments.Add(ticketAttachment);
+                    }
                 }
                 db.Entry(ticketAttachment).State = EntityState.Modified;
                 db.SaveChanges();
