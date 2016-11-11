@@ -106,17 +106,18 @@ namespace BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 
+                TicketHistory ticketHistory = new TicketHistory(); // create TicketHistory entry
+
                 ticket.Created = DateTime.Now;
                 ticket.OwnerUser= db.Users.Find(User.Identity.GetUserId());
                 ticket.TicketStatusId = 1;
                 db.Tickets.Add(ticket);
                 
-                TicketHistory ticketHistory = new TicketHistory(); // create TicketHistory entry
-                ticketHistory.TicketId = ticket.Id;
-                ticketHistory.Property = "Ticket Created";
-                ticketHistory.UserId = ticket.OwnerUserId;
-                ticketHistory.Changed = DateTime.Now;
-                db.TicketHistories.Add(ticketHistory);
+                //ticketHistory.TicketId = ticket.Id;
+                //ticketHistory.Property = "Ticket Created";
+                //ticketHistory.UserId = ticket.OwnerUserId;
+                //ticketHistory.Changed = DateTime.Now;
+                //db.TicketHistories.Add(ticketHistory);
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
