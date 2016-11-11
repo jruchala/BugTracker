@@ -110,6 +110,14 @@ namespace BugTracker.Controllers
                 ticket.OwnerUser= db.Users.Find(User.Identity.GetUserId());
                 ticket.TicketStatusId = 1;
                 db.Tickets.Add(ticket);
+                
+                TicketHistory ticketHistory = new TicketHistory(); // create TicketHistory entry
+                ticketHistory.TicketId = ticket.Id;
+                ticketHistory.Property = "Ticket Created";
+                ticketHistory.UserId = ticket.OwnerUserId;
+                ticketHistory.Changed = DateTime.Now;
+                db.TicketHistories.Add(ticketHistory);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -171,8 +179,15 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("TicketTypeId").IsModified = true;
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
                 db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
+
+                // Create new History Object(s)
+                TicketHistory ticketHistory = new TicketHistory();
+                ticketHistory.Changed = DateTime.Now;
+                ticketHistory.TicketId = ticket.Id;
+                ticketHistory.UserId = User.Identity.GetUserId();
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
 
             return View(ticket);
