@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using BugTracker.Helpers;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace BugTracker.Controllers
 {
@@ -17,6 +19,8 @@ namespace BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public ProjectAssignHelper helper = new ProjectAssignHelper();
         public UserRolesHelper userHelper = new UserRolesHelper();
+        //HistoryHelper historyHelper = new HistoryHelper();
+
 
         // GET: Tickets
         [Authorize]
@@ -113,11 +117,11 @@ namespace BugTracker.Controllers
                 ticket.TicketStatusId = 1;
                 db.Tickets.Add(ticket);
                 
-                //ticketHistory.TicketId = ticket.Id;
-                //ticketHistory.Property = "Ticket Created";
-                //ticketHistory.UserId = ticket.OwnerUserId;
-                //ticketHistory.Changed = DateTime.Now;
-                //db.TicketHistories.Add(ticketHistory);
+                ticketHistory.TicketId = ticket.Id;
+                ticketHistory.Property = "Ticket Created";
+                ticketHistory.UserId = ticket.OwnerUserId;
+                ticketHistory.Changed = DateTime.Now;
+                db.TicketHistories.Add(ticketHistory);
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -168,7 +172,73 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                // begin update history section
+                var oldTicketInfo = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                // update db
                 ticket.Updated = DateTime.Now;
+                if (ticket.TicketStatusId == 1)
+                {
+                    ticket.AssignedToUserId = null;
+                }
+                
+
+                if (oldTicketInfo.title != ticket.title)
+                {
+                    HistoryHelper.AddHistory(ticket.Id, "Title", oldTicketInfo.title, ticket.title, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.description != ticket.description)
+                {
+                    HistoryHelper.AddHistory(ticket.Id, "Description", oldTicketInfo.description, ticket.description, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.AssignedToUserId != ticket.AssignedToUserId
+                    && oldTicketInfo.AssignedToUserId != null)
+                {
+                    var oldAssignedUser = db.Users.Find(oldTicketInfo.AssignedToUserId).FirstName
+                        + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
+                    var newAssignedUser = db.Users.Find(ticket.AssignedToUserId).FirstName
+                        + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
+                    HistoryHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.AssignedToUserId == null && oldTicketInfo.AssignedToUserId != ticket.AssignedToUserId)
+                {
+                    var oldAssignedUser = "Unassigned";
+                    var newAssignedUser = db.Users.Find(ticket.AssignedToUserId).FirstName
+                        + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
+                    HistoryHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.ProjectId != ticket.ProjectId)
+                {
+                    var oldProject = db.Projects.Find(oldTicketInfo.ProjectId).Name;
+                    var newProject = db.Projects.Find(ticket.ProjectId).Name;
+                    HistoryHelper.AddHistory(ticket.Id, "Project", oldProject, newProject, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.TicketPriorityId != ticket.TicketPriorityId)
+                {
+                    var oldPriority = db.TicketPriorities.Find(oldTicketInfo.TicketPriorityId).Name;
+                    var newPriority = db.TicketPriorities.Find(ticket.TicketPriorityId).Name;
+                    HistoryHelper.AddHistory(ticket.Id, "Priority", oldPriority, newPriority, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.TicketStatusId != ticket.TicketStatusId)
+                {
+                    var oldStatus = db.TicketStatuses.Find(oldTicketInfo.TicketStatusId).Name;
+                    var newStatus = db.TicketStatuses.Find(ticket.TicketStatusId).Name;
+                    HistoryHelper.AddHistory(ticket.Id, "Status", oldStatus, newStatus, User.Identity.GetUserId());
+                }
+
+                if (oldTicketInfo.TicketTypeId != ticket.TicketTypeId)
+                {
+                    var oldTicketType = db.TicketTypes.Find(oldTicketInfo.TicketTypeId).Name;
+                    var newTicketType = db.TicketTypes.Find(ticket.TicketTypeId).Name;
+                    HistoryHelper.AddHistory(ticket.Id, "Ticket Type", oldTicketType, newTicketType, User.Identity.GetUserId());
+                }
+
+
                 db.Tickets.Attach(ticket);
                 db.Entry(ticket).Property("title").IsModified = true;
                 db.Entry(ticket).Property("description").IsModified = true;
@@ -180,13 +250,6 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("TicketTypeId").IsModified = true;
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
                 db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
-
-                // Create new History Object(s)
-                TicketHistory ticketHistory = new TicketHistory();
-                ticketHistory.Changed = DateTime.Now;
-                ticketHistory.TicketId = ticket.Id;
-                ticketHistory.UserId = User.Identity.GetUserId();
-
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
