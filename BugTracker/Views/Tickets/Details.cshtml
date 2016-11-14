@@ -88,8 +88,8 @@
     <div class="row">
         <div class="col-md-8">
             <p>
-                <a  href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-sm btn-primary" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
-                
+                <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-sm btn-primary" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+
                 @Html.ActionLink("Back to List", "Index")
             </p>
         </div>
@@ -97,73 +97,73 @@
 
     @*Begin Comments section*@
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h3>Comments</h3>
-            
-                @foreach (var comment in Model.TicketComments.Reverse())
-                {
-                    <p>
-                        @if (!String.IsNullOrWhiteSpace(comment.UserId))
+
+            @foreach (var comment in Model.TicketComments.Reverse())
+            {
+                <p>
+                    @if (!String.IsNullOrWhiteSpace(comment.UserId))
+                    {
+                        if (!String.IsNullOrWhiteSpace(comment.User.LastName))
                         {
-                            if (!String.IsNullOrWhiteSpace(comment.User.LastName))
-                            {
-                                <h5>@comment.User.LastName wrote: </h5>
-                            }
+                            <h5>@comment.User.LastName wrote: </h5>
                         }
-                        <h5>@comment.Comment</h5>
-                        <br />
-                        <h6><em>@comment.Created</em></h6>
-                        @if (User.IsInRole("Admin"))
+                    }
+                    <h5>@comment.Comment</h5>
+                    <br />
+                    <h6><em>@comment.Created</em></h6>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                        <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
+                    }
+                    @if (User.IsInRole("Submitter") || User.IsInRole("Developer"))
+                    {
+                        if (comment.UserId == ViewBag.UserId)
                         {
                             <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
                             <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                         }
-                        @if (User.IsInRole("Submitter") || User.IsInRole("Developer"))
+                    }
+                    @if (User.IsInRole("Project Manager"))
+                    {
+                        if (Model.Project.Users.Contains(ViewBag.UserObject))
                         {
-                            if (comment.UserId == ViewBag.UserId)
-                            {
-                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
-                                <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
-                            }
+                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                            <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
                         }
-                        @if (User.IsInRole("Project Manager"))
-                        {
-                            if (Model.Project.Users.Contains(ViewBag.UserObject))
-                            {
-                                <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-edit"></i>Edit</a>
-                                <a class="btn btn-sm btn-warning" href="@Url.Action("Delete", "TicketComments", new { id = comment.Id})" role="button"><i class="fa fa-fw fa-times-circle"></i>Delete</a>
-                            }
-                        }
+                    }
 
-                    </p>
-                    <hr class="small" />
-                }
+                </p>
+                <hr class="small" />
+            }
 
-                @if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
                 using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
                 {
-                        @Html.AntiForgeryToken();
-                        <input type="hidden" name="TicketId" value="@Model.Id" />
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <textarea class="form-control" id="comment" name="Comment" rows="6" cols="6" placeholder="Enter a comment."></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Submit" class="btn btn-default" />
-                            </div>
+                    @Html.AntiForgeryToken();
+                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment" name="Comment" rows="6" cols="6" placeholder="Enter a comment."></textarea>
                         </div>
-                    }
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
                 }
-                else
-                {
-                    <a href="@Url.Action("Login", "Account")" class="btn brn-primary" role="button">Please Login to Comment</a>
-                }
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")" class="btn brn-primary" role="button">Please Login to Comment</a>
+            }
 
-            
+
         </div>
         @*Begin Attachments section*@
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h3>Attachments</h3>
             @foreach (var attachment in Model.TicketAttachments.Reverse())
             {
@@ -171,11 +171,11 @@
                     @attachment.User.LastName added:
                     <br />
                     <a href="@Href(attachment.FileUrl)" target="_blank">@attachment.Description</a>
-                   
+
                 </p>
                 <p>
                     <h6><em>@attachment.Created</em></h6>
-                    
+
                 </p>
                 if (User.IsInRole("Admin"))
                 {
@@ -202,6 +202,39 @@
             }
 
             <a class="btn btn-default" href="@Url.Action("Create", "TicketAttachments", new {id = Model.Id})" role="button">Add Attachment</a>
+        </div>
+
+        @*Begin History Section*@
+        <div class="col-md-4">
+            <h3>History</h3>
+            @foreach (var history in Model.TicketHistories.Reverse())
+            {
+
+                if (history.Property == "Ticket Created")
+                {
+                    <p>
+                        @history.Property <br />
+                        by @history.User.FirstName
+                        @history.User.LastName
+                        <em>at @history.Changed</em> <br />
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @history.Property changed <br />
+
+                        from @history.OldValue <br />
+
+                        to @history.NewValue <br />
+
+                        by @history.User.FirstName
+                        @history.User.LastName
+                        <em>at @history.Changed</em> <br />
+                    </p>
+                }
+                <hr />
+            }
         </div>
     </div>
 </div>
