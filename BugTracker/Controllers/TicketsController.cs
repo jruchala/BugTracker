@@ -19,7 +19,7 @@ namespace BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public ProjectAssignHelper helper = new ProjectAssignHelper();
         public UserRolesHelper userHelper = new UserRolesHelper();
-        //HistoryHelper historyHelper = new HistoryHelper();
+        HistoryHelper historyHelper = new HistoryHelper();
 
 
         // GET: Tickets
@@ -184,12 +184,12 @@ namespace BugTracker.Controllers
 
                 if (oldTicketInfo.title != ticket.title)
                 {
-                    HistoryHelper.AddHistory(ticket.Id, "Title", oldTicketInfo.title, ticket.title, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Title", oldTicketInfo.title, ticket.title, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.description != ticket.description)
                 {
-                    HistoryHelper.AddHistory(ticket.Id, "Description", oldTicketInfo.description, ticket.description, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Description", oldTicketInfo.description, ticket.description, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.AssignedToUserId != ticket.AssignedToUserId
@@ -199,7 +199,7 @@ namespace BugTracker.Controllers
                         + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
                     var newAssignedUser = db.Users.Find(ticket.AssignedToUserId).FirstName
                         + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
-                    HistoryHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.AssignedToUserId == null && oldTicketInfo.AssignedToUserId != ticket.AssignedToUserId)
@@ -207,35 +207,35 @@ namespace BugTracker.Controllers
                     var oldAssignedUser = "Unassigned";
                     var newAssignedUser = db.Users.Find(ticket.AssignedToUserId).FirstName
                         + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
-                    HistoryHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Assigned User", oldAssignedUser, newAssignedUser, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.ProjectId != ticket.ProjectId)
                 {
                     var oldProject = db.Projects.Find(oldTicketInfo.ProjectId).Name;
                     var newProject = db.Projects.Find(ticket.ProjectId).Name;
-                    HistoryHelper.AddHistory(ticket.Id, "Project", oldProject, newProject, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Project", oldProject, newProject, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.TicketPriorityId != ticket.TicketPriorityId)
                 {
                     var oldPriority = db.TicketPriorities.Find(oldTicketInfo.TicketPriorityId).Name;
                     var newPriority = db.TicketPriorities.Find(ticket.TicketPriorityId).Name;
-                    HistoryHelper.AddHistory(ticket.Id, "Priority", oldPriority, newPriority, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Priority", oldPriority, newPriority, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.TicketStatusId != ticket.TicketStatusId)
                 {
                     var oldStatus = db.TicketStatuses.Find(oldTicketInfo.TicketStatusId).Name;
                     var newStatus = db.TicketStatuses.Find(ticket.TicketStatusId).Name;
-                    HistoryHelper.AddHistory(ticket.Id, "Status", oldStatus, newStatus, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Status", oldStatus, newStatus, User.Identity.GetUserId());
                 }
 
                 if (oldTicketInfo.TicketTypeId != ticket.TicketTypeId)
                 {
                     var oldTicketType = db.TicketTypes.Find(oldTicketInfo.TicketTypeId).Name;
                     var newTicketType = db.TicketTypes.Find(ticket.TicketTypeId).Name;
-                    HistoryHelper.AddHistory(ticket.Id, "Ticket Type", oldTicketType, newTicketType, User.Identity.GetUserId());
+                    historyHelper.AddHistory(ticket.Id, "Ticket Type", oldTicketType, newTicketType, User.Identity.GetUserId());
                 }
 
 
