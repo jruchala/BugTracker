@@ -266,11 +266,13 @@ namespace BugTracker.Controllers
             Ticket ticket = db.Tickets.Find(id);
             var devs = userHelper.UsersInRole("Developer");
             //ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName", ticket.AssignedToUserId);
-
-            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName");
-            ViewBag.Project = ticket.Project.Name;
-            ViewBag.Title = ticket.title;
-            ViewBag.Description = ticket.description;
+           
+                ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName");
+                ViewBag.Project = ticket.Project.Name;
+                ViewBag.Title = ticket.title;
+                ViewBag.Description = ticket.description;
+      
+           
             return View(ticket);
         }
 
