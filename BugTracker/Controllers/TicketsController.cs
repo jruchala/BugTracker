@@ -285,6 +285,8 @@ namespace BugTracker.Controllers
             {
                 db.Tickets.Attach(ticket);
                 ticket.TicketStatusId = 2;
+                var dev = db.Users.Find(ticket.AssignedToUserId).FirstName + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
+               
                 db.Entry(ticket).Property("title").IsModified = false;
                 db.Entry(ticket).Property("description").IsModified = false;
                 db.Entry(ticket).Property("Updated").IsModified = false;
@@ -294,6 +296,9 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("TicketTypeId").IsModified = false;
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
                 db.Entry(ticket).Property("AssignedToUserId").IsModified = true;
+
+
+                historyHelper.AddHistory(ticket.Id, "Assigned", "", dev, User.Identity.GetUserId());
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

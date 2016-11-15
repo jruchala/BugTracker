@@ -219,19 +219,32 @@
                         <em>at @history.Changed</em> <br />
                     </p>
                 }
+                else if (history.Property == "Assigned")
+                {
+                    <p>
+                        @history.Property to <br />
+                        @history.NewValue <br />
+                        by @history.User.FirstName
+                        @history.User.LastName
+                        <em>at @history.Changed</em> <br />
+
+                    </p>
+                }
                 else
                 {
                     <p>
                         @history.Property changed <br />
 
-                        from @history.OldValue <br />
+                        from @history.OldValue<br />
 
                         to @history.NewValue <br />
 
                         by @history.User.FirstName
                         @history.User.LastName
-                        <em>at @history.Changed</em> <br />
-                    </p>
+                        <em> at @history.Changed </em > <br />
+
+
+                     </p>
                 }
                 <hr />
             }
