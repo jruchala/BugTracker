@@ -230,6 +230,16 @@
 
                     </p>
                 }
+                else if (history.NewValue == "Resolved")
+                {
+                    <p>
+                        @history.NewValue <br />
+                        by @history.User.FirstName
+                        @history.User.LastName
+                        <em>at @history.Changed</em> <br />
+
+                    </p>
+                }
                 else
                 {
                     <p>
@@ -241,10 +251,10 @@
 
                         by @history.User.FirstName
                         @history.User.LastName
-                        <em> at @history.Changed </em > <br />
+                        <em> at @history.Changed </em> <br />
 
 
-                     </p>
+                    </p>
                 }
                 <hr />
             }

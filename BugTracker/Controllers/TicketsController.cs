@@ -344,6 +344,7 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("TicketTypeId").IsModified = false;
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
                 db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
+                historyHelper.AddHistory(ticket.Id, "Ticket Status", "Assigned", "Resolved", User.Identity.GetUserId());
                 db.SaveChanges();
                 
                 return RedirectToAction("Index");
