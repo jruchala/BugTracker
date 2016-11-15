@@ -259,12 +259,15 @@ namespace BugTracker.Controllers
 
 
         // GET: Tickets/AssignDeveloper/5
+        [HttpGet]
         [Authorize(Roles = "Project Manager")]
         public ActionResult AssignDeveloper(int id)
         {
             Ticket ticket = db.Tickets.Find(id);
             var devs = userHelper.UsersInRole("Developer");
-            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName", ticket.AssignedToUserId);
+            //ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName", ticket.AssignedToUserId);
+
+            ViewBag.AssignedToUserId = new SelectList(devs, "Id", "LastName");
             ViewBag.Project = ticket.Project.Name;
             ViewBag.Title = ticket.title;
             ViewBag.Description = ticket.description;
@@ -282,7 +285,6 @@ namespace BugTracker.Controllers
                 ticket.TicketStatusId = 2;
                 db.Entry(ticket).Property("title").IsModified = false;
                 db.Entry(ticket).Property("description").IsModified = false;
-                db.Entry(ticket).Property("Created").IsModified = false;
                 db.Entry(ticket).Property("Updated").IsModified = false;
                 db.Entry(ticket).Property("ProjectId").IsModified = false;
                 db.Entry(ticket).Property("TicketPriorityId").IsModified = false;

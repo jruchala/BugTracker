@@ -1,14 +1,15 @@
 ﻿@model BugTracker.Models.Ticket
-    
+
 @{
     ViewBag.Title = "Assign Developer to Ticket";
 }
 
 <h2>Assign Developer to Ticket</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AssignDeveloper", "Tickets",FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.Id)
 
     <div class="form-horizontal">
         <h4>Ticket</h4>
@@ -17,10 +18,10 @@
         <h5><strong>Bug Title:</strong> @ViewBag.Title</h5>
         <p>@ViewBag.Description</p>
         <hr />
-        
+
         <h4>Assign a Developer</h4>
         <div class="form-group">
-            
+
             <div class="col-md-3">
                 @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })

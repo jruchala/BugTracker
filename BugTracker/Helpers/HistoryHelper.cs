@@ -6,11 +6,11 @@ using BugTracker.Models;
 
 namespace BugTracker.Helpers
 {
-    public static class HistoryHelper
+    public class HistoryHelper
     {
        
 
-        public static void AddHistory(int ticketId, string updateProperty, string oldValue, string newValue, string userId)
+        public void AddHistory(int ticketId, string updateProperty, string oldValue, string newValue, string userId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
             TicketHistory ticketHistory = new TicketHistory();
