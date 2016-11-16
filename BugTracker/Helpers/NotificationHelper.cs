@@ -71,9 +71,18 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
-        public void EditNotification(int ticket, string user)
+        public async Task EditNotification(int ticket, string user, string ticketTitle, string changes)
         {
+            var msg = new IdentityMessage();
+            msg.Subject = "BugTracker ticket has been edited";
+            msg.Destination = db.Users.Find(user).Email;
+            msg.Body = String.Format(@"Your BugTracker ticket, number {0}, ({1}), has been edited.
+                <br /> The following changes have been made:
+                <br /> {2}", ticket, ticketTitle, changes);
 
+
+
+            await email.SendAsync(msg);
 
             // create db record for notification
             var ticketNotification = new TicketNotification();
