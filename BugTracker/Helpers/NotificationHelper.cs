@@ -34,10 +34,10 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
-        public async Task CommentNotification(int ticket, string user, string ticketTitle, int ticketComment, string commentBody, string commentAuthor)
+        public async Task CommentNotification(int ticket, string user, string ticketTitle, string commentBody, string commentAuthor)
         {
             var msg = new IdentityMessage();
-            msg.Body = String.Format(@"A comment has been posted to a ticket you are assigned to.
+            msg.Body = String.Format(@"A comment has been posted to a ticket to which you are assigned.
                 <br /> Ticket: {0}, {1}
                 <br /> Comment: {2}
                 <br /> Posted By: {3}", ticket, ticketTitle, commentBody, commentAuthor);

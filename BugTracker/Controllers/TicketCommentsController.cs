@@ -9,13 +9,14 @@ using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using BugTracker.Helpers;
+using System.Threading.Tasks;
 
 namespace BugTracker.Controllers
 {
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private NotificationHelper notificationHelper = new NotificationHelper();
+        NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: TicketComments
         [Authorize]
@@ -54,7 +55,7 @@ namespace BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Comment,Created,UserId,TicketId")] TicketComment ticketComment)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Comment,Created,UserId,TicketId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +63,15 @@ namespace BugTracker.Controllers
                 ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
+
+                var ticket = db.Tickets.Find(ticketComment.TicketId);
+                var commenter = db.Users.Find(ticketComment.UserId).FirstName + " " + db.Users.Find(ticketComment.UserId).LastName;
+
+                var assignedUserId = ticket.AssignedToUserId;
+                if (assignedUserId != null)
+                {
+                    await notificationHelper.CommentNotification(ticketComment.TicketId, assignedUserId, ticket.title, ticketComment.Comment, commenter);
+                }
 
                 return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId});
             }
