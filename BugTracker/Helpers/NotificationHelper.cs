@@ -18,10 +18,10 @@ namespace BugTracker.Helpers
 
             // send email to developer
             var msg = new IdentityMessage();
-            msg.Body = "You are the assigned develper for ticket number " + ticket
-                + "\nTicket Title: " + db.Tickets.Find(ticket).title;
             msg.Subject = "New BugTracker Assignment";
             msg.Destination = db.Users.Find(user).Email;
+            msg.Body = "You are the assigned develper for ticket number " + ticket
+                + "\nTicket Title: " + db.Tickets.Find(ticket).title;
             
             await email.SendAsync(msg);
 
@@ -37,12 +37,12 @@ namespace BugTracker.Helpers
         public async Task CommentNotification(int ticket, string user, string ticketTitle, string commentBody, string commentAuthor)
         {
             var msg = new IdentityMessage();
+            msg.Subject = "New BugTracker Comment";
+            msg.Destination = db.Users.Find(user).Email;
             msg.Body = String.Format(@"A comment has been posted to a ticket to which you are assigned.
                 <br /> Ticket: {0}, {1}
                 <br /> Comment: {2}
                 <br /> Posted By: {3}", ticket, ticketTitle, commentBody, commentAuthor);
-            msg.Subject = "New BugTracker Comment";
-            msg.Destination = db.Users.Find(user).Email;
             await email.SendAsync(msg);
             // create db record for notification
             var ticketNotification = new TicketNotification();
@@ -52,8 +52,17 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
         
-        public void AttachmentNotification(int ticket, string user)
+        public async Task AttachmentNotification(int ticket, string user, string ticketTitle, string fileName, string attacher)
         {
+            var msg = new IdentityMessage();
+            msg.Subject = "New BugTracker Attachment";
+            msg.Destination = db.Users.Find(user).Email;
+            msg.Body = String.Format(@"An attachment has been added to a ticket to which you are assigned.
+                <br /> Ticket: {0}, {1}
+                <br /> Attachment: {2}
+                <br /> Added By: {3}", ticket, ticketTitle, fileName, attacher);
+
+            await email.SendAsync(msg);
             // create db record for notification
             var ticketNotification = new TicketNotification();
             ticketNotification.TicketId = ticket;

@@ -64,6 +64,7 @@ namespace BugTracker.Controllers
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
 
+                // begin notification functionality
                 var ticket = db.Tickets.Find(ticketComment.TicketId);
                 var commenter = db.Users.Find(ticketComment.UserId).FirstName + " " + db.Users.Find(ticketComment.UserId).LastName;
 
@@ -72,7 +73,7 @@ namespace BugTracker.Controllers
                 {
                     await notificationHelper.CommentNotification(ticketComment.TicketId, assignedUserId, ticket.title, ticketComment.Comment, commenter);
                 }
-
+                // end notification
                 return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId});
             }
 

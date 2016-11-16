@@ -10,12 +10,16 @@ using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
+using BugTracker.Helpers;
 
 namespace BugTracker.Models
 {
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        NotificationHelper notificationHelper = new NotificationHelper();
+        
 
         // GET: TicketAttachments
         [Authorize(Roles ="Admin")]
@@ -56,7 +60,7 @@ namespace BugTracker.Models
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,Description,Created,UserId,FileUrl")] TicketAttachment ticketAttachment, HttpPostedFileBase attachment)
+        public async Task<ActionResult> Create([Bind(Include = "Id,TicketId,Description,Created,UserId,FileUrl")] TicketAttachment ticketAttachment, HttpPostedFileBase attachment)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +72,16 @@ namespace BugTracker.Models
                     ticketAttachment.Created = DateTime.Now;
                     db.TicketAttachments.Add(ticketAttachment);
                     db.SaveChanges();
+
+                    // begin notification functionality
+                    var ticket = db.Tickets.Find(ticketAttachment.TicketId);
+                    var attacher = db.Users.Find(ticketAttachment.UserId).FirstName + " " + db.Users.Find(ticketAttachment.UserId).LastName;
+                    var assignedUserId = ticket.AssignedToUserId;
+                    if (assignedUserId != null)
+                    {
+                        await notificationHelper.AttachmentNotification(ticketAttachment.TicketId, assignedUserId, ticket.title, fileName, attacher);
+                    }
+                    // end notification
                     return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId});
                 }
             }
