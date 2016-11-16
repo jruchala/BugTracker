@@ -8,12 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: TicketComments
         [Authorize]
@@ -60,6 +62,7 @@ namespace BugTracker.Controllers
                 ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
+
                 return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId});
             }
 

@@ -34,21 +34,16 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
-        public void EditNotification(int ticket, string user)
+        public async Task CommentNotification(int ticket, string user, string ticketTitle, int ticketComment, string commentBody, string commentAuthor)
         {
-
-
-            // create db record for notification
-            var ticketNotification = new TicketNotification();
-            ticketNotification.TicketId = ticket;
-            ticketNotification.UserId = user;
-            db.TicketNotifications.Add(ticketNotification);
-            db.SaveChanges();
-        }
-
-        public void CommentNotification(int ticket, string user)
-        {
-
+            var msg = new IdentityMessage();
+            msg.Body = String.Format(@"A comment has been posted to a ticket you are assigned to.
+                <br /> Ticket: {0}, {1}
+                <br /> Comment: {2}
+                <br /> Posted By: {3}", ticket, ticketTitle, commentBody, commentAuthor);
+            msg.Subject = "New BugTracker Comment";
+            msg.Destination = db.Users.Find(user).Email;
+            await email.SendAsync(msg);
             // create db record for notification
             var ticketNotification = new TicketNotification();
             ticketNotification.TicketId = ticket;
@@ -66,5 +61,18 @@ namespace BugTracker.Helpers
             db.TicketNotifications.Add(ticketNotification);
             db.SaveChanges();
         }
+
+        public void EditNotification(int ticket, string user)
+        {
+
+
+            // create db record for notification
+            var ticketNotification = new TicketNotification();
+            ticketNotification.TicketId = ticket;
+            ticketNotification.UserId = user;
+            db.TicketNotifications.Add(ticketNotification);
+            db.SaveChanges();
+        }
+
     }
 }
