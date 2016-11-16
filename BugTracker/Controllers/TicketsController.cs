@@ -12,6 +12,7 @@ using BugTracker.Helpers;
 using System.Threading.Tasks;
 using System.Text;
 
+
 namespace BugTracker.Controllers
 {
     public class TicketsController : Controller
@@ -21,6 +22,7 @@ namespace BugTracker.Controllers
         public UserRolesHelper userHelper = new UserRolesHelper();
         HistoryHelper historyHelper = new HistoryHelper();
         NotificationHelper notificationHelper = new NotificationHelper();
+        StringBuilder sb = new StringBuilder();
 
 
         // GET: Tickets
@@ -169,12 +171,15 @@ namespace BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
                 // begin update history section
                 var oldTicketInfo = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                string notificationString = ""; // string to hold notifications 
+
                 // update db
                 ticket.Updated = DateTime.Now;
                 if (ticket.TicketStatusId == 1)
@@ -186,11 +191,13 @@ namespace BugTracker.Controllers
                 if (oldTicketInfo.title != ticket.title)
                 {
                     historyHelper.AddHistory(ticket.Id, "Title", oldTicketInfo.title, ticket.title, User.Identity.GetUserId());
+                    sb.AppendFormat("Ticket Title: changed from {0} to {1} <br />", oldTicketInfo.title, ticket.title);
                 }
 
                 if (oldTicketInfo.description != ticket.description)
                 {
                     historyHelper.AddHistory(ticket.Id, "Description", oldTicketInfo.description, ticket.description, User.Identity.GetUserId());
+                    sb.AppendFormat("Description: changed from {0} to {1} <br />", oldTicketInfo.description, ticket.description);
                 }
 
                 if (oldTicketInfo.AssignedToUserId != ticket.AssignedToUserId
@@ -216,6 +223,7 @@ namespace BugTracker.Controllers
                     var oldProject = db.Projects.Find(oldTicketInfo.ProjectId).Name;
                     var newProject = db.Projects.Find(ticket.ProjectId).Name;
                     historyHelper.AddHistory(ticket.Id, "Project", oldProject, newProject, User.Identity.GetUserId());
+                    sb.AppendFormat("Project: changed from {0} to {1} <br />", oldProject, newProject);
                 }
 
                 if (oldTicketInfo.TicketPriorityId != ticket.TicketPriorityId)
@@ -223,6 +231,7 @@ namespace BugTracker.Controllers
                     var oldPriority = db.TicketPriorities.Find(oldTicketInfo.TicketPriorityId).Name;
                     var newPriority = db.TicketPriorities.Find(ticket.TicketPriorityId).Name;
                     historyHelper.AddHistory(ticket.Id, "Priority", oldPriority, newPriority, User.Identity.GetUserId());
+                    sb.AppendFormat("Priority: changed from {0} to {1} <br />", oldPriority, newPriority);
                 }
 
                 if (oldTicketInfo.TicketStatusId != ticket.TicketStatusId)
@@ -230,6 +239,7 @@ namespace BugTracker.Controllers
                     var oldStatus = db.TicketStatuses.Find(oldTicketInfo.TicketStatusId).Name;
                     var newStatus = db.TicketStatuses.Find(ticket.TicketStatusId).Name;
                     historyHelper.AddHistory(ticket.Id, "Status", oldStatus, newStatus, User.Identity.GetUserId());
+                    sb.AppendFormat("Status: changed from {0} to {1} <br />", oldStatus, newStatus);
                 }
 
                 if (oldTicketInfo.TicketTypeId != ticket.TicketTypeId)
@@ -237,6 +247,7 @@ namespace BugTracker.Controllers
                     var oldTicketType = db.TicketTypes.Find(oldTicketInfo.TicketTypeId).Name;
                     var newTicketType = db.TicketTypes.Find(ticket.TicketTypeId).Name;
                     historyHelper.AddHistory(ticket.Id, "Ticket Type", oldTicketType, newTicketType, User.Identity.GetUserId());
+                    sb.AppendFormat("Type: changed from {0} to {1} <br />", oldTicketType, newTicketType);
                 }
 
 
@@ -252,6 +263,15 @@ namespace BugTracker.Controllers
                 db.Entry(ticket).Property("OwnerUserId").IsModified = false;
                 db.Entry(ticket).Property("AssignedToUserId").IsModified = false;
                 db.SaveChanges();
+
+                // notification
+                var assignedUserId = ticket.AssignedToUserId;
+                var editor = db.Users.Find(User.Identity.GetUserId()).FirstName + " " + db.Users.Find(User.Identity.GetUserId()).LastName;
+                if (assignedUserId != null)
+                {
+                    await notificationHelper.EditNotification(ticket.Id, assignedUserId, sb, editor );
+                }
+
                 return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
 

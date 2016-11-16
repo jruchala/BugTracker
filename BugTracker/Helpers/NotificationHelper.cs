@@ -5,6 +5,7 @@ using System.Web;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace BugTracker.Helpers
 {
@@ -71,14 +72,15 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
-        public async Task EditNotification(int ticket, string user, string ticketTitle, string changes)
+        public async Task EditNotification(int ticket, string user, StringBuilder changes, string editor)
         {
             var msg = new IdentityMessage();
             msg.Subject = "BugTracker ticket has been edited";
             msg.Destination = db.Users.Find(user).Email;
-            msg.Body = String.Format(@"Your BugTracker ticket, number {0}, ({1}), has been edited.
+            msg.Body = String.Format(@"Your BugTracker ticket, number {0}, has been edited.
                 <br /> The following changes have been made:
-                <br /> {2}", ticket, ticketTitle, changes);
+                <br /> {1}
+                <br /> by {2}", ticket, changes, editor);
 
 
 
