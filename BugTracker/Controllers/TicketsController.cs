@@ -20,6 +20,7 @@ namespace BugTracker.Controllers
         public ProjectAssignHelper helper = new ProjectAssignHelper();
         public UserRolesHelper userHelper = new UserRolesHelper();
         HistoryHelper historyHelper = new HistoryHelper();
+        NotificationHelper notificationHelper = new NotificationHelper();
 
 
         // GET: Tickets
@@ -279,7 +280,7 @@ namespace BugTracker.Controllers
         // POST: Tickets/AssignDeveloper/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignDeveloper([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public async Task<ActionResult> AssignDeveloper([Bind(Include = "Id,title,description,Created,Updated,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -300,6 +301,7 @@ namespace BugTracker.Controllers
 
                 historyHelper.AddHistory(ticket.Id, "Assigned", "", dev, User.Identity.GetUserId());
                 db.SaveChanges();
+                await notificationHelper.AssignmentNotification(ticket.Id, ticket.AssignedToUserId);
                 return RedirectToAction("Index");
             }
             return View(ticket);
