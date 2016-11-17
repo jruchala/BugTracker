@@ -306,6 +306,8 @@ namespace BugTracker.Controllers
             {
                 db.Tickets.Attach(ticket);
                 ticket.TicketStatusId = 2;
+                var oldTicketInfo = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                var oldDev = oldTicketInfo.AssignedToUserId;
                 var dev = db.Users.Find(ticket.AssignedToUserId).FirstName + " " + db.Users.Find(ticket.AssignedToUserId).LastName;
                
                 db.Entry(ticket).Property("title").IsModified = false;
@@ -321,6 +323,10 @@ namespace BugTracker.Controllers
 
                 historyHelper.AddHistory(ticket.Id, "Assigned", "", dev, User.Identity.GetUserId());
                 db.SaveChanges();
+                if (oldDev != null && oldDev != ticket.AssignedToUserId)
+                {
+                    await notificationHelper.UnassignmentNotification(ticket.Id, oldDev);
+                }
                 await notificationHelper.AssignmentNotification(ticket.Id, ticket.AssignedToUserId);
                 return RedirectToAction("Index");
             }

@@ -35,6 +35,24 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
+        public async Task UnassignmentNotification(int ticket, string user)
+        {
+
+            var msg = new IdentityMessage();
+            msg.Subject = "BugTracer Ticket Reassigned";
+            msg.Destination = db.Users.Find(user).Email;
+            msg.Body = String.Format("Ticket number {0} (Title: {1}) has been assigned to another developer. You are no longer responsible for this ticket.", ticket, db.Tickets.Find(ticket).title);
+
+            await email.SendAsync(msg);
+
+            // create db record for notification
+            var ticketNotification = new TicketNotification();
+            ticketNotification.TicketId = ticket;
+            ticketNotification.UserId = user;
+            db.TicketNotifications.Add(ticketNotification);
+            db.SaveChanges();
+        }
+
         public async Task CommentNotification(int ticket, string user, string ticketTitle, string commentBody, string commentAuthor)
         {
             var msg = new IdentityMessage();
