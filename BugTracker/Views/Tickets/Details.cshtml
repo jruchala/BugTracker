@@ -46,7 +46,8 @@
             <strong>Status</strong>
         </div>
         <div class="col-md-3">
-            @Html.DisplayFor(model => model.TicketStatus.Name)
+            @Html.DisplayFor(model => model.TicketStatus.Name) @if (User.IsInRole("Developer") || User.IsInRole("Project Manager"))
+                { <a href="@Url.Action("Resolve", new { id = Model.Id })" role="button" class="btn btn-sm btn-success"><i class="fa fa-fw fa-square"></i>Resolve</a>}
         </div>
     </div>
     <div class="row">
