@@ -260,6 +260,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\creative.min.css" />
+    <Content Include="assets\magnific-popup\jquery.magnific-popup.js" />
+    <Content Include="assets\magnific-popup\jquery.magnific-popup.min.js" />
+    <Content Include="assets\magnific-popup\magnific-popup.css" />
+    <Content Include="assets\scrollreveal\scrollreveal.js" />
+    <Content Include="assets\scrollreveal\scrollreveal.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="assets\css\main-style.css" />
     <Content Include="assets\css\style.css" />
@@ -301,6 +307,19 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="assets\img\header.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\1.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\2.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\3.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\4.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\5.jpg" />
+    <Content Include="assets\img\portfolio\fullsize\6.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\1.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\2.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\3.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\4.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\5.jpg" />
+    <Content Include="assets\img\portfolio\thumbnails\6.jpg" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -318,6 +337,8 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\jruchala-bugtracker.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\creative.js" />
+    <Content Include="Scripts\creative.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -333,6 +354,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\siminta.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="Views\Home\Welcome.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

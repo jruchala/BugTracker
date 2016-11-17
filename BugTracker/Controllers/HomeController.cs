@@ -42,5 +42,10 @@ namespace BugTracker.Controllers
            
 
         }
+
+        public ActionResult Welcome()
+        {
+            return View();
+        }
     }
 }
