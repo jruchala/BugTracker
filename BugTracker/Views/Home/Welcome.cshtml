@@ -90,7 +90,18 @@
                     <h2 class="section-heading">About BugTracker</h2>
                     <hr class="light">
                     <p class="text-faded">BugTracker is a full-featured ticketing system built by James Ruchala for Coder Foundry's Full-Stack Development Course. BugTracker features multiple user roles, easy ticket assignment, active notifications, and a responsive design.</p>
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Submitter</a> <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Developer</a> <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Project Manager</a>
+                    @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new{ @class = "form-horizontal", role = "form"}))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                        <input type="hidden" name="Email" value="pm@mail.com" />
+                        <input type="hidden" name="Password" value="blank" />
+                        <input type="submit" value="Try as Project Manager" class="btn btn-default" />
+                    }
+
+                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Submitter</a>
+                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Developer</a>
+                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Project Manager</a>
                 </div>
             </div>
         </div>
@@ -143,95 +154,50 @@
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
+                    <a href="~/assets/img/portfolio/fullsize/1.jpg" class="portfolio-box">
                         <img src="~/assets/img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="" />
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Dashboard
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    BugTracker Dashboard gets you to your projects and tickets.
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/2.jpg" class="portfolio-box">
-                        <img src="~/assets/img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">
+                    <a href="~/assets/img/portfolio/fullsize/3.jpg" class="portfolio-box">
                         <img src="~/assets/img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Notifications
                                 </div>
                                 <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--<div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
+                                    Get updates to your ticket right in your email.
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
+                    <a href="~/assets/img/portfolio/fullsize/2.jpg" class="portfolio-box">
+                        <img src="~/assets/img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Ticket Details
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    Review, update, and resolve tickets from one view.
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/6.jpg" class="portfolio-box">
-                        <img src="img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>-->
             </div>
         </div>
     </section>
@@ -239,8 +205,8 @@
     <aside class="bg-dark">
         <div class="container text-center">
             <div class="call-to-action">
-                <h2>Free Download at Start Bootstrap!</h2>
-                <a href="http://startbootstrap.com/template-overviews/creative/" class="btn btn-default btn-xl sr-button">Download Now!</a>
+                <h2>See what else I can code for you!</h2>
+                <a href="http://jruchala-portfolio.azurewebsites.net" class="btn btn-default btn-xl sr-button">My Portfolio</a>
             </div>
         </div>
     </aside>
@@ -249,18 +215,34 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Let's Get In Touch!</h2>
+                    <h2 class="section-heading">Contact me.</h2>
                     <hr class="primary">
-                    <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                    <p>If you're interested in learning more about BugTracker or would like to discuss what else I can code for you, get in touch.</p>
                 </div>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x sr-contact"></i>
-                    <p>123-456-6789</p>
+                    <p>(917) 428-1121</p>
                 </div>
                 <div class="col-lg-4 text-center">
                     <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                    <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
+                    <p><a href="mailto:jruchala@gmail.com">Email</a></p>
                 </div>
+            </div>
+            <div class="row">
+                <hr class="small" />
+                <ul class="list-inline" style="text-align:center;">
+                    <li>
+                        <a href="https://github.com/jruchala"><i class="fa fa-github fa-fw fa-3x" style="color:gray"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/james-ruchala-5a817a10"><i class="fa fa-linkedin-square fa-fw fa-3x" style="color:gray"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/jruthedamaja/"><i class="fa fa-instagram fa-fw fa-3x" style="color:gray"></i></a>
+                    </li>
+                </ul>
+                <hr class="small">
+                <p class="text-muted" style="text-align:center">Copyright &copy; James Ruchala 2016</p>
             </div>
         </div>
     </section>

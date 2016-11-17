@@ -54,6 +54,38 @@ namespace BugTracker.Controllers
             }
         }
 
+        // Demo Login Emails
+
+        public string DemoEmail(string role)
+        {
+            switch (role)
+            {
+                case "Project Manager":
+                    return "JRCF-BT-PM@mailinator.com";
+                case "Developer":
+                    return "JRCF-BT-Dev@mailinator.com";
+                case "Submitter":
+                    return "JRCF-BT-Sub@mailinator.com";
+            }
+            return "Invalid";
+        }
+
+        // Demo Login Passwords
+
+        public string DemoPasswords(string role)
+        {
+            switch (role)
+            {
+                case "Project Manager":
+                    return "Pm999999!";
+                case "Developer":
+                    return "Dev888888!";
+                case "Submitter":
+                    return "Sub777777!";
+            }
+            return "Invalid";
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -73,6 +105,22 @@ namespace BugTracker.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            if (model.Email.Equals("pm@mail.com"))
+            {
+                model.Email = DemoEmail("Project Manager");
+                model.Password = DemoPasswords("Project Manager");
+            }
+            else if (model.Email.Equals("dev@mail.com"))
+            {
+                model.Email = DemoEmail("Developer");
+                model.Password = DemoPasswords("Developer");
+            }
+            else if (model.Email.Equals("sub@mail.com"))
+            {
+                model.Email = DemoEmail("Submitter");
+                model.Password = DemoPasswords("Submitter");
             }
 
             // This doesn't count login failures towards account lockout
