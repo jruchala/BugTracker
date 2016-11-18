@@ -14,7 +14,7 @@
 
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
             {
-                <h3>User: @User.Identity.Name</h3>
+                <h3>User: @ViewBag.UserName</h3>
                 if (User.IsInRole("Admin"))
                 {
                     <h4>Role: Admin <i class="fa fa-gavel"></i></h4>

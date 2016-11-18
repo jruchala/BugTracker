@@ -16,6 +16,11 @@ namespace BugTracker.Controllers
 
         public ActionResult Index()
         {
+            var user = User.Identity.GetUserId();
+            if (user != null)
+            {
+                ViewBag.UserName = db.Users.Find(user).FirstName + " " + db.Users.Find(user).LastName;
+            }
             return View();
         }
 

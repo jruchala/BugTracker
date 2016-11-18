@@ -58,10 +58,10 @@
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Services</a>
+                        <a class="page-scroll" href="#roles">Roles</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                        <a class="page-scroll" href="#screenshots">Screenshots</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -92,40 +92,45 @@
                     <h2 class="section-heading">About BugTracker</h2>
                     <hr class="light">
                     <p class="text-faded">BugTracker is a full-featured ticketing system built by James Ruchala for Coder Foundry's Full-Stack Development Course. BugTracker features multiple user roles, easy ticket assignment, active notifications, and a responsive design.</p>
-                    @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new{ @class = "form-horizontal", role = "form"}))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                        <input type="hidden" name="Email" value="pm@mail.com" />
-                        <input type="hidden" name="Password" value="blank" />
-                        <input type="submit" value="Try as Project Manager" class="btn btn-default" />
-                    }
-                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <input type="hidden" name="Email" value="dev@mail.com" />
-                        <input type="hidden" name="Password" value="blank" />
-                        <input type="submit" value="Try as Developer" class="btn btn-default" />
-                    }
-                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <input type="hidden" name="Email" value="sub@mail.com" />
-                        <input type="hidden" name="Password" value="blank" />
-                        <input type="submit" value="Try as Submitter" class="btn btn-default" />
-                    }
-
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Submitter</a>
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Developer</a>
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Project Manager</a>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" name="Email" value="pm@mail.com" />
+                                <input type="hidden" name="Password" value="blank" />
+                                <input type="submit" value="Try as Project Manager" class="btn btn-default btn-xl sr-button" />
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" name="Email" value="dev@mail.com" />
+                                <input type="hidden" name="Password" value="blank" />
+                                <input type="submit" value="Try as Developer" class="btn btn-default btn-xl sr-button" />
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" name="Email" value="sub@mail.com" />
+                                <input type="hidden" name="Password" value="blank" />
+                                <input type="submit" value="Try as Submitter" class="btn btn-default btn-xl sr-button" />
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services">
+    <section id="roles">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -168,7 +173,7 @@
         </div>
     </section>
 
-    <section class="no-padding" id="portfolio">
+    <section class="no-padding" id="screenshots">
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
