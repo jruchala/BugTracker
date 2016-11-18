@@ -79,17 +79,17 @@
                                 @Html.DisplayFor(modelItem => item.Updated)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                <a href="@Url.Action("Edit", new { id = item.Id })" role="button" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                                <a href="@Url.Action("Details", new { id = item.Id })" role="button" class="btn btn-xs btn-info"><i class="fa fa-fw fa-envelope-o"></i>Details</a>
                                 @{if (User.IsInRole("Project Manager"))
                                     {
-                                        @Html.ActionLink("Assign", "AssignDeveloper", new { id = item.Id })
+                                        <a href="@Url.Action("AssignDeveloper", new { id = item.Id})" role="button" class="btn btn-xs btn-default"><i class="fa fa-fw fa-hand-o-right"></i>Assign</a>
 
                                     }
                                 }
                                 @{if (User.IsInRole("Project Manager") || User.IsInRole("Developer"))
                                     {
-                                        @Html.ActionLink("Resolve", "Resolve", new { id = item.Id})
+                                        <a href="@Url.Action("Resolve", new { id = item.Id })" role="button" class="btn btn-xs btn-success"><i class="fa fa-fw fa-square"></i>Resolve</a>
                                     }
 
                                 }
