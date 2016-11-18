@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+@using BugTracker.Models
+@model LoginViewModel
 
 @{
     Layout = null;
@@ -97,6 +99,22 @@
                         <input type="hidden" name="Email" value="pm@mail.com" />
                         <input type="hidden" name="Password" value="blank" />
                         <input type="submit" value="Try as Project Manager" class="btn btn-default" />
+                    }
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="hidden" name="Email" value="dev@mail.com" />
+                        <input type="hidden" name="Password" value="blank" />
+                        <input type="submit" value="Try as Developer" class="btn btn-default" />
+                    }
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="hidden" name="Email" value="sub@mail.com" />
+                        <input type="hidden" name="Password" value="blank" />
+                        <input type="submit" value="Try as Submitter" class="btn btn-default" />
                     }
 
                     <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Try as Submitter</a>

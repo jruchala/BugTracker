@@ -72,7 +72,7 @@ namespace BugTracker.Controllers
 
         // Demo Login Passwords
 
-        public string DemoPasswords(string role)
+        public string DemoPassword(string role)
         {
             switch (role)
             {
@@ -110,17 +110,17 @@ namespace BugTracker.Controllers
             if (model.Email.Equals("pm@mail.com"))
             {
                 model.Email = DemoEmail("Project Manager");
-                model.Password = DemoPasswords("Project Manager");
+                model.Password = DemoPassword("Project Manager");
             }
             else if (model.Email.Equals("dev@mail.com"))
             {
                 model.Email = DemoEmail("Developer");
-                model.Password = DemoPasswords("Developer");
+                model.Password = DemoPassword("Developer");
             }
             else if (model.Email.Equals("sub@mail.com"))
             {
                 model.Email = DemoEmail("Submitter");
-                model.Password = DemoPasswords("Submitter");
+                model.Password = DemoPassword("Submitter");
             }
 
             // This doesn't count login failures towards account lockout
