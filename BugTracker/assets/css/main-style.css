@@ -10,7 +10,7 @@ Author: http://binarytheme.com
 .user-section {
     margin-top:20px;
     font-size:22px;
-    background-color:rgb(83, 163, 163);
+    background-color:#F05F40;
 }
 .user-section-inner {
     height: 65px;
@@ -60,7 +60,7 @@ color: #FFFFFF;
 padding: 20px 15px;
 }
 #side-menu {
-    background-color:#04B173;
+    background-color:#F05F40;
 }
 
  #side-menu a {
@@ -92,7 +92,7 @@ padding: 20px 15px;
 /* tap nvbar Section */
 
 #navbar {
-    background-color:rgb(83, 163, 163);
+    background-color:rgb(128, 128, 128);
 }
 
 .navbar-brand {

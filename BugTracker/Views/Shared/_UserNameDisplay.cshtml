@@ -1,23 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
 <br />
-<br />
-@if (Request.IsAuthenticated) {
-    <ul style="display:inline;">
-        <li>
-            <i class="fa fa-user fa-fw" style="color:white"></i>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", style = "text-decoration:none" })
 
-        </li>
-    </ul>
+@if (Request.IsAuthenticated) {
+    <span style="display:inline;">
+            <i class="fa fa-user fa-fw" style="color:white"></i>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", style = "text-decoration:none" })     
+    </span>
 }
-@*else
-{
-    <ul style="display:inline;">
-        <li style="display:inline;">
-            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) 
-        </li>
-        <li style="display:inline;"> | </li>
-        <li style="display:inline;">
-            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-        </li>
-    </ul>
-}*@
