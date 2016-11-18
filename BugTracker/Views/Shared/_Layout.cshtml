@@ -36,66 +36,16 @@
             <!-- end navbar-header -->
             <!-- navbar-top-links -->
             <ul class="nav navbar-top-links navbar-right">
-                <!-- main dropdown -->
-                @*<li>
-                   
+                <li>
+                    <a href="@Url.Action("Index","Home")"><i class="fa fa-3x fa-dashboard"></i></a>
                 </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        <span class="top-label label label-danger">3</span><i class="fa fa-envelope fa-3x"></i>
-                    </a>*@
-                    @*<!-- dropdown-messages -->
-        <ul class="dropdown-menu dropdown-messages">
-            <li>
-                <a href="">
-                    <div>
-                        <strong><span class=" label label-danger">Andrew Smith</span></strong>
-                        <span class="pull-right text-muted">
-                            <em>Yesterday</em>
-                        </span>
-                    </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="">
-                    <div>
-                        <strong><span class=" label label-info">Jonney Depp</span></strong>
-                        <span class="pull-right text-muted">
-                            <em>Yesterday</em>
-                        </span>
-                    </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="">
-                    <div>
-                        <strong><span class=" label label-success">Jonney Depp</span></strong>
-                        <span class="pull-right text-muted">
-                            <em>Yesterday</em>
-                        </span>
-                    </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center" href="">
-                    <strong>Read All Messages</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- end dropdown-messages -->
-    </li>*@
+                <li>
+                    <a href="@Url.Action("ProjectList","Home")"><i class="fa fa-3x fa-rocket"></i></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","Tickets")"><i class="fa fa-3x fa-bug"></i></a>
+                </li>
 
-                
-
-                
-                
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                         <i class="fa fa-user fa-3x"></i>
@@ -149,9 +99,7 @@
                     <li>
                         <a href="@Url.Action("Index", "Tickets")"><i class="fa fa-bug fa-fw"></i>Tickets</a>
                     </li>
-                    <li>
-                        <a href=""><i class="fa fa-bell fa-fw"></i>Notifications</a>
-                    </li>
+
                    @* <li>
         <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
