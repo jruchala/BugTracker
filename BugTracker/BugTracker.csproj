@@ -348,7 +348,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\siminta.js" />
     <Content Include="Scripts\_references.js" />
-    <None Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
