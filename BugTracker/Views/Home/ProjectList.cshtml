@@ -7,22 +7,19 @@
 
 
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name) |
-                @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, "")
+                <h4>@Html.DisplayFor(modelItem => item.Name) </h4>
+                <a href="@Url.Action("Details", "Projects", new { id = item.Id })" role="button" class="btn btn-sm btn-default">Details</a>
+              
                 @{if (User.IsInRole("Submitter"))
                     {
-                        @Html.ActionLink(" | Create Ticket", "Create", "Tickets", new { projectId = item.Id }, "")
+                        <a href="@Url.Action("Create", "Tickets", new { projectId = item.Id })" role="button" class="btn btn-sm btn-danger"><i class="fa fa-fw fa-bug"></i>Create Ticket</a>
+                        @*@Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = item.Id }, "")*@
                     }
                 }
             </td>
