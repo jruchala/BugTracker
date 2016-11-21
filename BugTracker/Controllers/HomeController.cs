@@ -20,6 +20,12 @@ namespace BugTracker.Controllers
             if (user != null)
             {
                 ViewBag.UserName = db.Users.Find(user).FirstName + " " + db.Users.Find(user).LastName;
+                var ticket = db.Tickets;
+                ViewBag.ProjectCount = db.Projects.Count();
+                ViewBag.TicketCount = db.Tickets.Count();
+                ViewBag.ResolvedCount = db.Tickets.Where(t => t.TicketStatusId == 3).Count();
+                ViewBag.OpenCount = db.Tickets.Where(t => t.TicketStatusId <= 2).Count();
+                ViewBag.UserCount = db.Users.Count();
             }
             return View();
         }

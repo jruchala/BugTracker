@@ -14,179 +14,189 @@
                     <h2>Welcome to BugTracker</h2>
                 </div>
             </div>
-            
-
-                </div>
-            </div>
-
-            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
-            {
-
-                <h3>User: @ViewBag.UserName</h3>
-                if (User.IsInRole("Admin"))
-                {
-                    <h4>Role: Admin <i class="fa fa-gavel"></i></h4>
-                }
-                else if (User.IsInRole("Developer"))
-                {
-                    <h4>Role: Developer <i class="fa fa-code"></i></h4>
-                }
-                else if (User.IsInRole("Project Manager"))
-                {
-                    <h4>Role: Project Manager <i class="fa fa-cogs"></i></h4>
-                }
-                else if (User.IsInRole("Submitter"))
-                {
-                    <h4>Role: Submitter <i class="fa fa-crosshairs"></i></h4>
-                }
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="@Url.Action("ProjectList")" role="button" class="btn btn-default">My Projects</a>
-                        <a href="@Url.Action("Index", "Tickets")" role="button" class="btn btn-danger">My Tickets</a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        
-                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                        {
-                            <br />
-                            <a href="@Url.Action("Index", "Projects")" role="button" class="btn btn-primary">View All Projects</a>
-                            <a href="@Url.Action("Create", "Projects")" role="button" class="btn btn-info">Create New Project</a>
-                        }
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <br />
-                            <a href="@Url.Action("Index", "Admin")" role="button" class="btn btn-success">View User Roles</a>
-                        }
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @if (User.IsInRole("Submitter"))
-                        {
-                            @*<br />
-                            <a href="@Url.Action("Create", "Tickets")" role="button" class="btn btn-danger">Create Ticket</a>*@
-                        }
-                    </div>
-                </div>
-                
-            }
-            else
-            {
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <section id="loginForm">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <h4>Use a local account to log in.</h4>
-                                    <hr />
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <div class="checkbox">
-                                                @Html.CheckBoxFor(m => m.RememberMe)
-                                                @Html.LabelFor(m => m.RememberMe)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Log in" class="btn btn-default" />
-                                        </div>
-                                    </div>
-                                    <p>
-                                        @Html.ActionLink("Register as a new user", "Register") | @Html.ActionLink("Forgot Your Password?", "ForgotPassword")
-                                    </p>
-                                    @* Enable this once you have account confirmation enabled for password reset functionality
-                                        <p>
-                                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                                        </p>*@
-                                }
-                            </section>
-                        </div>
-                        @*<div class="col-md-4">
-                                <section id="socialLoginForm">
-                                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                                </section>
-                            </div>*@
-                    </div>
-                    @*<h4>You are not logged in.</h4>
-                        <br />
-                        <div class="row">
-                            <ul style="display:inline;">
-                                <li style="display:inline;">
-                                    @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-                                </li>
-                                <li style="display:inline;"> or </li>
-                                <li style="display:inline;">
-                                    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-                                </li>
-                            </ul>
-                        </div>*@
-                    <div class="well">
-                        <div class="row">
-                            <div class="col-md-6"><h4>Demo Logins</h4></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <input type="hidden" name="Email" value="pm@mail.com" />
-                                    <input type="hidden" name="Password" value="blank" />
-                                    <input type="submit" value="Try as Project Manager" class="btn btn-default btn-xl sr-button" />
-                                }
-                            </div>
-                            <div class="col-md-4">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <input type="hidden" name="Email" value="dev@mail.com" />
-                                    <input type="hidden" name="Password" value="blank" />
-                                    <input type="submit" value="Try as Developer" class="btn btn-default btn-xl sr-button" />
-                                }
-                            </div>
-                            <div class="col-md-4">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <input type="hidden" name="Email" value="sub@mail.com" />
-                                    <input type="hidden" name="Password" value="blank" />
-                                    <input type="submit" value="Try as Submitter" class="btn btn-default btn-xl sr-button" />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
         </div>
     </div>
-</div>
+    <div class="row">
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
+            {
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>User: @ViewBag.UserName</h3>
+                        @if (User.IsInRole("Admin"))
+                        {
+                        <h4>Role: Admin <i class="fa fa-gavel"></i></h4>
+                        }
+                        else if (User.IsInRole("Developer"))
+                        {
+                        <h4>Role: Developer <i class="fa fa-code"></i></h4>
+                        }
+                        else if (User.IsInRole("Project Manager"))
+                        {
+                        <h4>Role: Project Manager <i class="fa fa-cogs"></i></h4>
+                        }
+                        else if (User.IsInRole("Submitter"))
+                        {
+                        <h4>Role: Submitter <i class="fa fa-crosshairs"></i></h4>
+                        }
+    
+                        <a href="@Url.Action("ProjectList")" role="button" class="btn btn-default">My Projects</a>
+                        <a href="@Url.Action("Index", "Tickets")" role="button" class="btn btn-danger">My Tickets</a>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                            {
+                                <br />
+                                <a href="@Url.Action("Index", "Projects")" role="button" class="btn btn-primary">View All Projects</a>
+                                <a href="@Url.Action("Create", "Projects")" role="button" class="btn btn-info">Create New Project</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <br />
+                                <a href="@Url.Action("Index", "Admin")" role="button" class="btn btn-success">View User Roles</a>
+                            }
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                @*<br />
+                                    <a href="@Url.Action("Create", "Tickets")" role="button" class="btn btn-danger">Create Ticket</a>*@
+                            }
+                        </div>
+                    </div>
+                    </div>
+                <div class="col-md-4">
+                            
+                        <hr />
+                        <h3>@ViewBag.UserCount Users</h3>
+                        <hr />
+                        <h3>@ViewBag.ProjectCount Projects</h3>
+                        <hr />
+                        <h3>@ViewBag.TicketCount Tickets</h3>
+                        <h4>@ViewBag.ResolvedCount Resolved</h4>
+                        <h4>@ViewBag.OpenCount Open</h4>
+                        <hr />
+
+                            
+                </div>
+            </div>
+                    }
+                    else
+                    {
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <section id="loginForm">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <h4>Use a local account to log in.</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                            <div class="col-md-10">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <div class="checkbox">
+                                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                                    @Html.LabelFor(m => m.RememberMe)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Log in" class="btn btn-default" />
+                                            </div>
+                                        </div>
+                                        <p>
+                                            @Html.ActionLink("Register as a new user", "Register") | @Html.ActionLink("Forgot Your Password?", "ForgotPassword")
+                                        </p>
+                                        @* Enable this once you have account confirmation enabled for password reset functionality
+                                            <p>
+                                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                            </p>*@
+                                    }
+                                </section>
+                            </div>
+                            @*<div class="col-md-4">
+                                    <section id="socialLoginForm">
+                                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                    </section>
+                                </div>*@
+                        </div>
+                        @*<h4>You are not logged in.</h4>
+                            <br />
+                            <div class="row">
+                                <ul style="display:inline;">
+                                    <li style="display:inline;">
+                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                                    </li>
+                                    <li style="display:inline;"> or </li>
+                                    <li style="display:inline;">
+                                        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                                    </li>
+                                </ul>
+                            </div>*@
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-6"><h4>Demo Logins</h4></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" name="Email" value="pm@mail.com" />
+                                        <input type="hidden" name="Password" value="blank" />
+                                        <input type="submit" value="Try as Project Manager" class="btn btn-default btn-xl sr-button" />
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" name="Email" value="dev@mail.com" />
+                                        <input type="hidden" name="Password" value="blank" />
+                                        <input type="submit" value="Try as Developer" class="btn btn-default btn-xl sr-button" />
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" name="Email" value="sub@mail.com" />
+                                        <input type="hidden" name="Password" value="blank" />
+                                        <input type="submit" value="Try as Submitter" class="btn btn-default btn-xl sr-button" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+    </div>
+
 
