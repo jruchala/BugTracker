@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using BugTracker.Models;
+using Owin.Security.Providers.LinkedIn;
 
 namespace BugTracker
 {
@@ -54,15 +55,17 @@ namespace BugTracker
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "223252254781978",
+               appSecret: "f017b730156e570e9c20a35976e6f926");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "538685909710-72jg3i59r24o7vntb5ndoihrllguped6.apps.googleusercontent.com",
+                ClientSecret = "2Mch_Yl3iOD1k3L-CvKmtZTU"
+            });
+
+            app.UseLinkedInAuthentication("78yejy7bf2fd59", "5yt48n0FCbgF8phd");
         }
     }
 }
