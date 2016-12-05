@@ -20,7 +20,7 @@
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Submitter") || User.IsInRole("Developer"))
             {
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <h3>User: @ViewBag.UserName</h3>
                         @if (User.IsInRole("Admin"))
                         {
@@ -73,13 +73,58 @@
                         </div>
                     </div>
                     </div>
-                <div class="col-md-4">
-                            
-                        <hr />
-                        <h3>@ViewBag.UserCount Users</h3>
-                        <hr />
-                        <h3>@ViewBag.ProjectCount Projects</h3>
-                        <hr />
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-users fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">@ViewBag.UserCount</div>
+                                    <div>Users</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("Index", "Manage")">
+                            <div class="panel-footer">
+                                <span class="pull-left">User Settings</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-rocket fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">@ViewBag.ProjectCount</div>
+                                    <div>Projects</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("ProjectList", "Home")">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Tickets
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart"></div>
+                            <a href="#" class="btn btn-default btn-block">View Details</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                        
                         <h3>@ViewBag.TicketCount Tickets</h3>
                         <h4>@ViewBag.ResolvedCount Resolved</h4>
                         <h4>@ViewBag.OpenCount Open</h4>
