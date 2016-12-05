@@ -1,6 +1,7 @@
 ﻿using BugTracker.Helpers;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,29 @@ namespace BugTracker.Controllers
         public ActionResult Welcome()
         {
             return View();
+        }
+
+        public ActionResult GetChart()
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Users.Find(User.Identity.GetUserId());
+                var tickets = db.Tickets.Count();
+                var ticketsResolved = db.Tickets.Where(t => t.TicketStatusId == 3).Count();
+                var ticketsOpen = db.Tickets.Where(t => t.TicketStatusId == 2).Count();
+                var ticketsUnassigned = db.Tickets.Where(t => t.TicketStatusId == 1).Count();
+
+                var data = new[] 
+                {
+                    new { label = "Unassigned", value = ticketsUnassigned},
+                    new { label = "Resolved", value = ticketsResolved},
+                    new { label = "Open", value = ticketsOpen }
+                };
+
+                return Content(JsonConvert.SerializeObject(data), "application/json");
+            }
+
+            return View("Index", "Home");
         }
     }
 }

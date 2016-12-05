@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<link href="assets/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <br />
 <br />
 <div class="container">
@@ -116,21 +119,14 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Tickets
+                            <i class="fa fa-bar-chart-o fa-fw"></i> @ViewBag.TicketCount Tickets
                         </div>
                         <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
-                            <a href="#" class="btn btn-default btn-block">View Details</a>
+                            <div id="MyChart"></div>
+                            <a href="@Url.Action("Index", "Tickets")" class="btn btn-default btn-block">View Details</a>
                         </div>
                         <!-- /.panel-body -->
-                    </div>
-                        
-                        <h3>@ViewBag.TicketCount Tickets</h3>
-                        <h4>@ViewBag.ResolvedCount Resolved</h4>
-                        <h4>@ViewBag.OpenCount Open</h4>
-                        <hr />
-
-                            
+                    </div>                
                 </div>
             </div>
                     }
@@ -176,32 +172,10 @@
                                         <p>
                                             @Html.ActionLink("Register as a new user", "Register") | @Html.ActionLink("Forgot Your Password?", "ForgotPassword")
                                         </p>
-                                        @* Enable this once you have account confirmation enabled for password reset functionality
-                                            <p>
-                                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                                            </p>*@
                                     }
                                 </section>
                             </div>
-                            @*<div class="col-md-4">
-                                    <section id="socialLoginForm">
-                                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                                    </section>
-                                </div>*@
                         </div>
-                        @*<h4>You are not logged in.</h4>
-                            <br />
-                            <div class="row">
-                                <ul style="display:inline;">
-                                    <li style="display:inline;">
-                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-                                    </li>
-                                    <li style="display:inline;"> or </li>
-                                    <li style="display:inline;">
-                                        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-                                    </li>
-                                </ul>
-                            </div>*@
                         <div class="well">
                             <div class="row">
                                 <div class="col-md-6"><h4>Demo Logins</h4></div>
@@ -243,5 +217,21 @@
                     }
                 </div>
     </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.get('@Url.Action("GetChart","Home")').then
+            (function (response) {
+                new Morris.Donut({
+                    element: 'MyChart',
+                    data: response,
+                    labelColor: '#060',
+                    colors: ['#438eb9', '#d15b47', '#f77604']
+                });
+            })
+        });
+    </script>
+}
 
 
